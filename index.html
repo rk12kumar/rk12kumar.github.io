@@ -1,0 +1,2376 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KritSolutions – IT-Infrastruktur Projektportal | Rohit Kumar | CANCOM Austria AG</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+/* =========================================================
+   CANCOM DESIGN SYSTEM – KritSolutions Projektportal
+   ========================================================= */
+:root {
+  --red-main:   #BA0530;
+  --red-dark:   #8A1538;
+  --red-light:  #F9CDCD;
+  --dark:       #232B33;
+  --medium:     #5A6675;
+  --muted:      #7C8795;
+  --border:     #C0C6D6;
+  --bg:         #F2F3F7;
+  --white:      #FFFFFF;
+  --text:       #333333;
+  --green:      #0F6E56;
+  --green-l:    #E1F5EE;
+  --todo-bg:    #FFF9E6;
+  --todo-bdr:   #F59E0B;
+  --todo-txt:   #92400E;
+  --scr-bg:     #EFF6FF;
+  --scr-bdr:    #3B82F6;
+  --scr-txt:    #1D4ED8;
+  --fix-bg:     #FEF2F2;
+  --fix-bdr:    #DC2626;
+  --fix-txt:    #991B1B;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.55;
+}
+.container { max-width: 1280px; margin: 0 auto; padding: 20px; }
+
+/* ---- GLOBAL HEADER ---- */
+.global-header {
+  background: linear-gradient(135deg, var(--dark) 0%, #2E3A47 100%);
+  border-bottom: 4px solid var(--red-main);
+  color: #fff;
+  padding: 0 20px;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+.global-header .inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 56px;
+  justify-content: space-between;
+}
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  text-decoration: none;
+}
+.logo-box {
+  background: var(--red-main);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 5px 11px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+.logo-text { font-size: 14px; font-weight: 600; color: #fff; }
+.logo-sub { font-size: 10px; opacity: 0.65; }
+.header-nav { display: flex; gap: 4px; flex-wrap: wrap; }
+.hn-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.75);
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+.hn-btn:hover, .hn-btn.active {
+  background: var(--red-main);
+  color: #fff;
+}
+.hn-btn.home-btn {
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.25);
+}
+
+/* ---- SECTION SWITCHING ---- */
+.main-section { display: none; }
+.main-section.active { display: block; }
+
+/* ---- COVER BANNER ---- */
+.cover-banner {
+  background: linear-gradient(135deg, var(--dark) 0%, #2E3A47 100%);
+  border-left: 6px solid var(--red-main);
+  border-radius: 8px;
+  color: #fff;
+  padding: 32px 36px;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.cover-banner::after {
+  content: '';
+  position: absolute;
+  right: -40px;
+  top: -40px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: rgba(186,5,48,0.12);
+  pointer-events: none;
+}
+.cover-banner h1 { font-size: 22px; font-weight: 700; margin-bottom: 6px; letter-spacing: -0.3px; }
+.cover-banner .sub { font-size: 14px; opacity: 0.85; margin-bottom: 18px; }
+.cover-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,0.12);
+  font-size: 12px;
+}
+.cover-meta span { opacity: 0.7; display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+
+/* ---- KPI GRID ---- */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.kpi-card {
+  background: var(--white);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  border-bottom: 3px solid var(--border);
+  padding: 18px 20px;
+  text-align: center;
+  transition: border-bottom-color .2s, transform .2s;
+}
+.kpi-card:hover { transform: translateY(-2px); border-bottom-color: var(--red-main); }
+.kpi-card .k-label { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
+.kpi-card .k-value { font-size: 24px; font-weight: 700; color: var(--red-main); }
+.kpi-card .k-desc { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+/* ---- SECTION CARD ---- */
+.sec-card {
+  background: var(--white);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  padding: 24px 28px;
+  margin-bottom: 22px;
+  scroll-margin-top: 70px;
+}
+.sec-card h2 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--red-main);
+}
+.sec-card h3 { font-size: 14px; font-weight: 700; color: var(--medium); margin: 20px 0 10px; }
+.sec-card h4 { font-size: 13px; font-weight: 700; color: var(--dark); margin: 14px 0 8px; }
+.sec-card p { line-height: 1.65; margin-bottom: 10px; }
+
+/* ---- TILE GRID (Landing) ---- */
+.tile-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin: 24px 0 32px;
+}
+@media (max-width: 800px) { .tile-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 520px) { .tile-grid { grid-template-columns: 1fr; } }
+.tile {
+  background: var(--white);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  border-top: 4px solid var(--border);
+  padding: 24px 22px;
+  cursor: pointer;
+  transition: all .2s;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
+}
+.tile:hover { border-top-color: var(--red-main); transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.09); }
+.tile-icon { font-size: 28px; }
+.tile-id { font-size: 10px; font-weight: 700; color: var(--red-main); text-transform: uppercase; letter-spacing: 1px; }
+.tile-title { font-size: 15px; font-weight: 700; color: var(--dark); }
+.tile-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.tile-badge {
+  position: absolute;
+  top: 12px; right: 14px;
+  background: var(--green-l);
+  color: var(--green);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 99px;
+}
+.tile-badge.todo { background: var(--todo-bg); color: var(--todo-txt); }
+
+/* ---- TABLES ---- */
+.tbl-wrap { overflow-x: auto; margin: 12px 0; border-radius: 6px; border: 1px solid var(--border); }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th {
+  background: var(--dark);
+  color: #fff;
+  padding: 10px 12px;
+  font-weight: 600;
+  text-align: left;
+  font-size: 11px;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+th.r, td.r { text-align: right; }
+td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.45; }
+tr:last-child td { border-bottom: none; }
+tr:nth-child(even) td { background: #FAFBFC; }
+tr.total td { font-weight: 700; background: #F0F2F5; border-top: 2px solid var(--red-main); border-bottom: 2px solid var(--red-main); color: var(--dark); font-size: 13px; }
+tr.subtot td { font-weight: 600; background: #F5F6F8; color: var(--dark); }
+small.sub { display: block; color: var(--muted); margin-top: 2px; font-size: 10px; }
+
+/* ---- HIGHLIGHT / TODO SYSTEM ---- */
+.todo-box {
+  background: var(--todo-bg);
+  border-left: 4px solid var(--todo-bdr);
+  border-radius: 0 4px 4px 0;
+  padding: 9px 14px;
+  margin: 10px 0;
+  color: var(--todo-txt);
+  font-size: 12px;
+}
+.todo-box::before { content: "⚠️  ERGÄNZEN: "; font-weight: 700; }
+.todo-inline {
+  background: #FEF3C7;
+  color: var(--todo-txt);
+  border: 1px solid var(--todo-bdr);
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-weight: 700;
+  font-size: 11px;
+  display: inline;
+}
+.screenshot-box {
+  background: var(--scr-bg);
+  border: 2px dashed var(--scr-bdr);
+  border-radius: 6px;
+  padding: 18px 20px;
+  text-align: center;
+  color: var(--scr-txt);
+  margin: 10px 0;
+  font-size: 12px;
+  font-weight: 600;
+}
+.screenshot-box .cam { font-size: 22px; display: block; margin-bottom: 4px; }
+.korr-box {
+  background: var(--fix-bg);
+  border-left: 4px solid var(--fix-bdr);
+  border-radius: 0 4px 4px 0;
+  padding: 9px 14px;
+  margin: 10px 0;
+  color: var(--fix-txt);
+  font-size: 12px;
+}
+.korr-box::before { content: "🔧  KORREKTUR: "; font-weight: 700; }
+
+/* ---- BADGES ---- */
+.badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 9px;
+  border-radius: 99px;
+  letter-spacing: 0.3px;
+}
+.b-passed { background: #D1FAE5; color: #065F46; border: 1px solid #6EE7B7; }
+.b-todo { background: var(--todo-bg); color: var(--todo-txt); border: 1px solid var(--todo-bdr); }
+.b-done { background: var(--green-l); color: var(--green); }
+.b-red { background: var(--red-light); color: var(--red-dark); }
+.b-blue { background: #EFF6FF; color: #1D4ED8; border: 1px solid #93C5FD; }
+.b-fix { background: var(--fix-bg); color: var(--fix-txt); border: 1px solid #FCA5A5; }
+
+/* ---- AP ACCORDION ---- */
+.ap-acc-btn {
+  width: 100%;
+  background: #F5F6F8;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 16px;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--dark);
+  margin-bottom: 4px;
+  transition: background .15s;
+}
+.ap-acc-btn:hover { background: var(--red-light); }
+.ap-acc-btn.open { background: var(--dark); color: #fff; border-color: var(--dark); }
+.ap-acc-btn .apn { font-size: 10px; font-weight: 700; color: var(--red-main); background: var(--red-light); padding: 2px 8px; border-radius: 3px; white-space: nowrap; }
+.ap-acc-btn.open .apn { background: rgba(255,255,255,0.15); color: #fff; }
+.ap-acc-btn .chevron { font-size: 14px; transition: transform .2s; }
+.ap-acc-btn.open .chevron { transform: rotate(180deg); }
+.ap-acc-content {
+  display: none;
+  border: 1px solid var(--border);
+  border-radius: 0 0 6px 6px;
+  padding: 18px 20px;
+  margin-bottom: 10px;
+  background: var(--white);
+}
+.ap-acc-content.open { display: block; }
+.ap-meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 14px; }
+.ap-meta-item { background: var(--bg); border-radius: 5px; padding: 8px 12px; }
+.ap-meta-item .lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 3px; }
+.ap-meta-item .val { font-size: 12px; font-weight: 600; color: var(--dark); }
+.ap-section { margin-bottom: 12px; }
+.ap-section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--medium); margin-bottom: 6px; border-bottom: 1px solid var(--border); padding-bottom: 4px; }
+
+/* ---- TC (Test Case) ---- */
+.tc-card { border: 1px solid var(--border); border-radius: 7px; margin-bottom: 16px; overflow: hidden; }
+.tc-header {
+  background: var(--dark);
+  color: #fff;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.tc-id { font-size: 12px; font-weight: 700; font-family: monospace; letter-spacing: 0.5px; }
+.tc-body { padding: 14px 16px; }
+.tc-section { margin-bottom: 12px; }
+.tc-section-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); margin-bottom: 5px; }
+.tc-section p { font-size: 12px; color: var(--text); line-height: 1.5; }
+.tc-steps { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 4px; }
+.tc-steps th { background: var(--medium); color: #fff; padding: 7px 10px; font-weight: 600; font-size: 10px; }
+.tc-steps td { padding: 7px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.tc-steps tr:last-child td { border-bottom: none; }
+.tc-steps tr:nth-child(even) td { background: #FAFBFC; }
+.step-ok { color: var(--green); font-weight: 700; }
+.step-todo { color: var(--todo-txt); font-weight: 700; }
+
+/* ---- SPRINT BOARD ---- */
+.sprint-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+.sprint-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--green);
+  border-radius: 0 8px 8px 0;
+  padding: 14px 16px;
+}
+.sprint-card.todo-card { border-left-color: var(--todo-bdr); }
+.sc-ap { font-size: 10px; font-weight: 700; color: var(--red-main); text-transform: uppercase; letter-spacing: 0.8px; }
+.sc-title { font-size: 13px; font-weight: 700; color: var(--dark); margin: 4px 0 8px; }
+.sc-desc { font-size: 11px; color: var(--muted); line-height: 1.5; margin-bottom: 10px; }
+.sc-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.sc-btn {
+  font-size: 11px;
+  color: var(--red-main);
+  background: var(--red-light);
+  border: none;
+  border-radius: 4px;
+  padding: 4px 10px;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: none;
+}
+.sc-btn:hover { background: var(--red-main); color: #fff; }
+
+/* ---- CHART ---- */
+.chart-wrap { position: relative; height: 320px; background: #F8F9FB; border-radius: 6px; padding: 14px; margin-top: 18px; }
+
+/* ---- AD TREE ---- */
+.ad-tree {
+  font-family: monospace;
+  font-size: 12px;
+  background: #1E2A36;
+  color: #A8D4F5;
+  border-radius: 7px;
+  padding: 18px 22px;
+  line-height: 1.9;
+  overflow-x: auto;
+}
+.ad-tree .root { color: #FFDE73; font-weight: 700; }
+.ad-tree .ou { color: #7DD3FC; }
+.ad-tree .leaf { color: #86EFAC; }
+.ad-tree .comment { color: #6B7280; }
+
+/* ---- NETWORK DIAGRAM ---- */
+.net-diagram {
+  font-family: monospace;
+  font-size: 11px;
+  background: #1E2A36;
+  color: #C8E6C9;
+  border-radius: 7px;
+  padding: 18px 22px;
+  line-height: 1.8;
+  overflow-x: auto;
+}
+
+/* ---- PRESENTATION SLIDE ---- */
+.slide-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 14px 18px;
+  margin-bottom: 10px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.slide-num { font-size: 22px; font-weight: 700; color: var(--red-main); min-width: 36px; }
+.slide-info .title { font-size: 13px; font-weight: 700; color: var(--dark); margin-bottom: 4px; }
+.slide-info .notes { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+/* ---- FEEDBACK CARD ---- */
+.feedback-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px 22px;
+  margin-bottom: 14px;
+}
+.feedback-card h4 { font-size: 14px; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
+
+/* ---- MISC ---- */
+.info-box { background: #EFF6FF; border-left: 4px solid #3B82F6; border-radius: 0 4px 4px 0; padding: 10px 14px; margin: 10px 0; font-size: 12px; color: #1D4ED8; }
+.info-box::before { content: "ℹ️  "; }
+.warn-box { background: var(--red-light); border-left: 4px solid var(--red-main); border-radius: 0 4px 4px 0; padding: 10px 14px; margin: 10px 0; font-size: 12px; color: var(--red-dark); }
+.warn-box::before { content: "⚠️  "; }
+.why-box { background: var(--green-l); border-left: 4px solid var(--green); border-radius: 0 4px 4px 0; padding: 10px 14px; margin: 10px 0; font-size: 12px; color: var(--green); }
+.why-box::before { content: "✅  "; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+ul.check { list-style: none; padding: 0; }
+ul.check li { padding: 3px 0 3px 18px; position: relative; font-size: 12px; }
+ul.check li::before { content: "✓"; position: absolute; left: 0; color: var(--green); font-weight: 700; }
+.confidential-bar { background: var(--red-main); color: #fff; text-align: center; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; padding: 4px; text-transform: uppercase; }
+hr { border: none; border-top: 1px solid var(--border); margin: 18px 0; }
+code { font-family: monospace; background: #F0F2F5; padding: 1px 5px; border-radius: 3px; font-size: 11px; }
+.src-link {
+  color: var(--red-main);
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  display: inline-block;
+  margin: 1px 0;
+}
+.src-link:hover { text-decoration: underline; }
+.footer { background: var(--dark); color: rgba(255,255,255,0.5); text-align: center; font-size: 11px; padding: 14px; margin-top: 30px; border-top: 3px solid var(--red-main); }
+</style>
+</head>
+<body>
+
+<!-- =========================================================
+     HEADER
+     ========================================================= -->
+<div class="confidential-bar">Confidential // Internal and External – CANCOM Austria AG</div>
+
+<div class="global-header">
+  <div class="inner">
+    <div class="logo-area" onclick="showHome()">
+      <div class="logo-box">CANCOM</div>
+      <div>
+        <div class="logo-text">KritSolutions Projektportal</div>
+        <div class="logo-sub">IT-Infrastruktur Abschlussprojekt 2. Lehrjahr</div>
+      </div>
+    </div>
+    <nav class="header-nav">
+      <button class="hn-btn home-btn" onclick="showHome()">🏠 Startseite</button>
+      <button class="hn-btn" data-sec="x1" onclick="showSection('x1')">X1 Doku</button>
+      <button class="hn-btn" data-sec="x2" onclick="showSection('x2')">X2 Kosten</button>
+      <button class="hn-btn" data-sec="x3" onclick="showSection('x3')">X3 Netzwerk</button>
+      <button class="hn-btn" data-sec="x4" onclick="showSection('x4')">X4 Arbeitspakete</button>
+      <button class="hn-btn" data-sec="x5" onclick="showSection('x5')">X5 Präsentation</button>
+      <button class="hn-btn" data-sec="x6" onclick="showSection('x6')">X6 Feedback</button>
+    </nav>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- =========================================================
+     LANDING PAGE
+     ========================================================= -->
+<div id="landing">
+  <div class="cover-banner">
+    <h1>IT-Infrastruktur für KritSolutions</h1>
+    <div class="sub">Abschlussprojekt 2. Lehrjahr – Simulierte Firma · Rohit Kumar · CANCOM Austria AG · 22. Mai 2026</div>
+    <div class="cover-meta">
+      <div><span>Projektnummer</span>KS-INFRA-2026-01</div>
+      <div><span>Status</span>In Umsetzung</div>
+      <div><span>Erstellt am</span>22.05.2026</div>
+      <div><span>Präsentation</span>15.06.2026</span></div>
+      <div><span>Mitarbeiter</span>22 Benutzer | 16 Arbeitsplätze</div>
+      <div><span>Erstellt von</span>Rohit Kumar</div>
+    </div>
+  </div>
+
+  <!-- KPI Row -->
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="k-label">Benutzer gesamt</div>
+      <div class="k-value">22</div>
+      <div class="k-desc">8 Abteilungen · Hybrid Work</div>
+    </div>
+    <div class="kpi-card">
+      <div class="k-label">Physische Arbeitsplätze</div>
+      <div class="k-value">16</div>
+      <div class="k-desc">Desksharing · 4 × 4 Büros</div>
+    </div>
+    <div class="kpi-card">
+      <div class="k-label">Meetingräume</div>
+      <div class="k-value">2</div>
+      <div class="k-desc">Teams Rooms vollausgestattet</div>
+    </div>
+    <div class="kpi-card">
+      <div class="k-label">Arbeitspakete</div>
+      <div class="k-value">AP01–AP19</div>
+      <div class="k-desc">19 Pakete vollständig</div>
+    </div>
+    <div class="kpi-card">
+      <div class="k-label">CAPEX (real)</div>
+      <div class="k-value">€ 115.358</div>
+      <div class="k-desc">Einmalinvestition Netto</div>
+    </div>
+    <div class="kpi-card">
+      <div class="k-label">OPEX / Monat</div>
+      <div class="k-value">€ 1.665</div>
+      <div class="k-desc">Laufende Betriebskosten</div>
+    </div>
+  </div>
+
+  <!-- Tile Grid -->
+  <div style="font-size:14px; font-weight:700; color:var(--dark); margin-bottom:12px;">Projektbereiche – Navigation</div>
+  <div class="tile-grid">
+    <div class="tile" onclick="showSection('x1')">
+      <span class="tile-badge b-done">Vollständig</span>
+      <div class="tile-icon">📋</div>
+      <div class="tile-id">X1</div>
+      <div class="tile-title">Gesamtdokumentation</div>
+      <div class="tile-desc">Einleitung, Akzeptanzkriterien, Planung, alle Arbeitspakete AP01–AP19, Testfälle, Fazit, TOM & Sicherheit</div>
+    </div>
+    <div class="tile" onclick="showSection('x2')">
+      <span class="tile-badge b-done">Vollständig</span>
+      <div class="tile-icon">💰</div>
+      <div class="tile-id">X2</div>
+      <div class="tile-title">Kostenplanung</div>
+      <div class="tile-desc">CAPEX, OPEX, Microsoft 365 Stack, Professional Services, Hidden Costs, TCO 5 Jahre</div>
+    </div>
+    <div class="tile" onclick="showSection('x3')">
+      <span class="tile-badge b-done">Vollständig</span>
+      <div class="tile-icon">🌐</div>
+      <div class="tile-id">X3</div>
+      <div class="tile-title">Netzwerk / Packet Tracer</div>
+      <div class="tile-desc">Lab-Netz vs. reale Architektur, VLAN-Konzept, VPN-Fluss, Netzwerkdiagramm, Simulationsplatzhalter</div>
+    </div>
+    <div class="tile" onclick="showSection('x4')">
+      <span class="tile-badge b-done">Vollständig</span>
+      <div class="tile-icon">🔧</div>
+      <div class="tile-id">X4</div>
+      <div class="tile-title">Umsetzung / Arbeitspakete</div>
+      <div class="tile-desc">Sprint-Board aller 19 Arbeitspakete mit Status, Deliverables und Testfall-Referenz</div>
+    </div>
+    <div class="tile" onclick="showSection('x5')">
+      <span class="tile-badge b-done">Struktur fertig</span>
+      <div class="tile-icon">📊</div>
+      <div class="tile-id">X5</div>
+      <div class="tile-title">Präsentation</div>
+      <div class="tile-desc">Folienstory, Präsentationsleitfaden, Begründungen, Mehrwert-Argumente, Rednerpunkte</div>
+    </div>
+    <div class="tile" onclick="showSection('x6')">
+      <span class="tile-badge todo">Feedback ausstehend</span>
+      <div class="tile-icon">💬</div>
+      <div class="tile-id">X6</div>
+      <div class="tile-title">Feedback / Bewertung</div>
+      <div class="tile-desc">Zuhörer-Feedback, Bewerter-Kommentare, Stärken, Verbesserungen, Selbstreflexion</div>
+    </div>
+  </div>
+
+  <div class="sec-card" style="border-left: 4px solid var(--red-main);">
+    <h2>Warum eine zentrale Projekt-Masterseite?</h2>
+    <p>Eine klassische Dokumentation (Word/PDF) ist vollständig, aber bei einem Projekt dieser Größe schwer zu navigieren – besonders für Prüfer, die gezielt auf bestimmte Bereiche zugreifen möchten. Diese Masterseite bündelt alle Projektartefakte an einem zentralen Ort.</p>
+    <div class="two-col">
+      <div>
+        <h4>Vorteile für die Präsentation</h4>
+        <ul class="check">
+          <li>Alle Inhalte in einer einzigen Datei – keine Medienbrüche</li>
+          <li>Prüfer können direkt zu jedem Bereich navigieren</li>
+          <li>Testfälle und Arbeitspakete sofort auffindbar</li>
+          <li>Kostenplanung und Dokumentation verknüpft</li>
+          <li>Wirkt moderner als eine klassische Word-Doku</li>
+          <li>Fehlende Inhalte (gelb markiert) sofort erkennbar</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Enthaltene Artefakte</h4>
+        <ul class="check">
+          <li>Vollständige Projektdokumentation (X1)</li>
+          <li>Echte Kostenplanung mit TCO-Analyse (X2)</li>
+          <li>Netzwerkarchitektur Lab vs. Produktion (X3)</li>
+          <li>Sprint-Board AP01–AP19 mit Status (X4)</li>
+          <li>Präsentationsleitfaden und Storyline (X5)</li>
+          <li>Feedback-Formular für Bewerter (X6)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =========================================================
+     X1 – GESAMTDOKUMENTATION
+     ========================================================= -->
+     <div id="x1" class="main-section">
+        <div class="cover-banner">
+          <h1>X1 – Gesamtdokumentation</h1>
+          <div class="sub">IT-Infrastruktur für KritSolutions · Rohit Kumar · CANCOM Austria AG · 22. Mai 2026</div>
+        </div>
+      
+        <div class="sec-card" id="einleitung">
+          <h2>1. Einleitung</h2>
+          <h3>Projektbeschreibung</h3>
+          <p>Im Rahmen dieses Projekts wurde eine IT-Infrastruktur für ein mittelständiges Unternehmen mit rund 20 Mitarbeitenden konzipiert und umgesetzt. Ziel war es, eine zukunftssichere, sichere und strukturierte IT-Umgebung bereitzustellen, die sowohl den internen Betrieb als auch externen Zugriff über Homeoffice ermöglicht. Der Fokus lag dabei auf der Implementierung einer zentral verwalteten Windows Domäne, der strukturierten Benutzer- und Rechteverwaltung sowie der sicheren Bereitstellung von Unternehmensressourcen über ein VPN.</p>
+          <h3>Zielsetzung</h3>
+          <p>Ziel des Projekts ist es die Planung und Umsetzung einer vollständigen IT-Infrastruktur mit folgenden Kernkomponenten:</p>
+          <ul class="check" style="margin-left:6px">
+            <li>Aufbau eines Active Directory (AD DS + DNS)</li>
+            <li>Einrichtung eines Fileservers mit strukturiertem Berechtigungskonzept</li>
+            <li>Implementierung eines sicheren VPN-Zugriffs für externe Benutzer</li>
+            <li>Entwicklung eines sauberen Netzwerk- und IP-Konzepts</li>
+            <li>Berücksichtigung von Sicherheitsaspekten und Datenschutz (DSGVO)</li>
+          </ul>
+          <h3>Lösungsansatz</h3>
+          <p>Die Umsetzung erfolgt in einer virtualisierten Umgebung mittels VirtualBox. Dabei werden mehrere virtuelle Maschinen eingesetzt, um eine reale Unternehmensinfrastruktur möglichst praxisnah abzubilden. Die Netzwerkarchitektur wird segmentiert aufgebaut, um eine klare Trennung zwischen internen Systemen, Serverdiensten und externen Zugriffen zu gewährleisten. Die Benutzer- und Rechteverwaltung erfolgt zentral über Active Directory unter Anwendung des AGDLP-Prinzips.</p>
+          <div class="info-box">In der Lab-Umgebung wird IPFire als kostenfreie Linux-Firewall verwendet. In der realen Kostenplanung (X2) wird eine Fortinet FortiGate 60F als Enterprise-Alternative kalkuliert. Dies ist kein Widerspruch – die Lab-Umsetzung bildet die Konzepte prüfungstauglich ab; die Kostenplanung zeigt die produktionsreife Architektur.</div>
+        </div>
+      
+        <div class="sec-card">
+          <h2>2. Teamstruktur und Benutzerliste</h2>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Abteilung</th><th>Anzahl</th><th>Benutzernamen</th><th>Zugriff / Rolle</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Management</strong></td><td>2</td><td><code>anna.leitner</code>, <code>markus.berger</code></td><td>Management-Freigaben, alle Berichte, strategische Daten</td></tr>
+                <tr><td><strong>IT / Administration</strong></td><td>2</td><td><code>rohit.kumar</code>, <code>lukas.steiner</code></td><td>Domain-Admin, Fileserver, GPO, VPN, Logging, AD-Verwaltung</td></tr>
+                <tr><td><strong>Product Owner</strong></td><td>2</td><td><code>julia.wagner</code>, <code>daniel.weber</code></td><td>PO-Freigaben, Projektdokumentation, Teams-Kanäle</td></tr>
+                <tr><td><strong>Developers</strong></td><td>6</td><td><code>max.dev</code>, <code>lisa.dev</code>, <code>tobias.klein</code>, <code>sarah.neumann</code>, <code>emir.aydin</code>, <code>nina.hoffmann</code></td><td>Development-Freigaben, Dev-Repositories, leistungsfähige Laptops</td></tr>
+                <tr><td><strong>Tester / QA</strong></td><td>4</td><td><code>tom.test</code>, <code>anna.test</code>, <code>laura.schmidt</code>, <code>felix.bauer</code></td><td>Testing-Freigaben, ISTQB-orientiertes Testkonzept</td></tr>
+                <tr><td><strong>HR</strong></td><td>2</td><td><code>eva.hr</code>, <code>paul.hr</code></td><td>HR-Freigaben (streng vertraulich), Personalverwaltung</td></tr>
+                <tr><td><strong>Finance</strong></td><td>2</td><td><code>max.finance</code>, <code>lisa.finance</code></td><td>Finance-Freigaben, Budget, Rechnungen</td></tr>
+                <tr><td><strong>Marketing</strong></td><td>2</td><td><code>mia.sommer</code>, <code>leon.fischer</code></td><td>Marketing-Freigaben, externe Kommunikation</td></tr>
+                <tr class="total"><td colspan="2">Gesamt</td><td colspan="2"><strong>22 Benutzer</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      
+        <div class="sec-card">
+          <h2>3. Active Directory Struktur</h2>
+          <div class="two-col">
+            <div>
+              <h3>OU-Hierarchie</h3>
+              <div class="ad-tree">
+      <span class="root">kritsolutions.local</span>
+      │
+      ├── <span class="ou">OU=Users</span>
+      │   ├── <span class="ou">OU=Management</span>  <span class="comment">← anna.leitner, markus.berger</span>
+      │   ├── <span class="ou">OU=IT</span>
+      │   │   ├── <span class="leaf">OU=Admins</span>  <span class="comment">← rohit.kumar, lukas.steiner</span>
+      │   │   ├── <span class="leaf">OU=ProductOwner</span>  <span class="comment">← julia.wagner, daniel.weber</span>
+      │   │   ├── <span class="leaf">OU=Developers</span>  <span class="comment">← 6 Entwickler</span>
+      │   │   └── <span class="leaf">OU=Tester</span>  <span class="comment">← 4 Tester/QA</span>
+      │   ├── <span class="ou">OU=HR</span>  <span class="comment">← eva.hr, paul.hr</span>
+      │   ├── <span class="ou">OU=Finance</span>  <span class="comment">← max.finance, lisa.finance</span>
+      │   └── <span class="ou">OU=Marketing</span>  <span class="comment">← mia.sommer, leon.fischer</span>
+      │
+      ├── <span class="ou">OU=Groups</span>  <span class="comment">← Alle Sicherheitsgruppen</span>
+      │
+      └── <span class="ou">OU=Computers</span>
+          ├── <span class="leaf">OU=Clients</span>  <span class="comment">← 22 Laptops + Domain-Clients</span>
+          └── <span class="leaf">OU=Servers</span>  <span class="comment">← DC01, FS01</span></div>
+            </div>
+            <div>
+              <h3>AGDLP-Gruppen</h3>
+              <div class="tbl-wrap">
+                <table>
+                  <thead><tr><th>Globale Gruppe</th><th>Domain Local Group</th></tr></thead>
+                  <tbody>
+                    <tr><td><code>GRP_MGMT_RW</code></td><td><code>DL_SHARE_MGMT_RW</code></td></tr>
+                    <tr><td><code>GRP_IT_ADMIN</code></td><td><code>DL_SHARE_IT_RW</code></td></tr>
+                    <tr><td><code>GRP_PO_RW</code></td><td><code>DL_SHARE_PO_RW</code></td></tr>
+                    <tr><td><code>GRP_DEV_RW</code></td><td><code>DL_SHARE_DEV_RW</code></td></tr>
+                    <tr><td><code>GRP_TESTER_RW</code></td><td><code>DL_SHARE_TESTER_RW</code></td></tr>
+                    <tr><td><code>GRP_HR_RW</code></td><td><code>DL_SHARE_HR_RW</code></td></tr>
+                    <tr><td><code>GRP_FINANCE_RW</code></td><td><code>DL_SHARE_FINANCE_RW</code></td></tr>
+                    <tr><td><code>GRP_MARKETING_RW</code></td><td><code>DL_SHARE_MARKETING_RW</code></td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="why-box" style="margin-top:10px">AGDLP-Prinzip: User → Global Group → Domain Local Group → NTFS Permission. Keine direkten Benutzerberechtigungen auf Shares oder Ordnern!</div>
+            </div>
+          </div>
+        </div>
+      
+        <div class="sec-card">
+          <h2>4. Fileserver-Struktur (FS01)</h2>
+          <div class="two-col">
+            <div>
+              <h3>Share-Struktur</h3>
+              <div class="ad-tree" style="font-size:11px">
+      <span class="root">\\FS01  (10.10.10.20)</span>
+      │  C:\Shares\
+      │
+      ├── <span class="ou">Management</span>  →  <span class="leaf">\\FS01\Management</span>
+      ├── <span class="ou">IT</span>           →  <span class="leaf">\\FS01\IT</span>
+      ├── <span class="ou">ProductOwner</span>  →  <span class="leaf">\\FS01\ProductOwner</span>
+      ├── <span class="ou">Development</span>  →  <span class="leaf">\\FS01\Development</span>
+      ├── <span class="ou">Testing</span>      →  <span class="leaf">\\FS01\Testing</span>
+      ├── <span class="ou">HR</span>           →  <span class="leaf">\\FS01\HR</span>
+      ├── <span class="ou">Finance</span>      →  <span class="leaf">\\FS01\Finance</span>
+      ├── <span class="ou">Marketing</span>    →  <span class="leaf">\\FS01\Marketing</span>
+      └── <span class="ou">Home$</span>        →  <span class="leaf">\\FS01\Home$\%username%</span></div>
+            </div>
+            <div>
+              <h3>FSRM Konfiguration</h3>
+              <div class="tbl-wrap">
+                <table>
+                  <thead><tr><th>Funktion</th><th>Konfiguration</th></tr></thead>
+                  <tbody>
+                    <tr><td>Quota – Home-Laufwerk</td><td>1 GB Hard Limit (kein Überschreiten möglich)</td></tr>
+                    <tr><td>File Screening</td><td>Musikdateien blockiert: MP3, WAV, FLAC, AAC, OGG</td></tr>
+                    <tr><td>Audit Logging</td><td>Aktiviert: Zugriff, Erstellen, Löschen, Umbenennen</td></tr>
+                    <tr><td>Home-Laufwerk Mapping</td><td>Laufwerk H: per GPO zugewiesen (<code>\\FS01\Home$\%username%</code>)</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+        <div class="sec-card">
+          <h2>5. Akzeptanzkriterien</h2>
+          <div class="two-col">
+            <div>
+              <h4>Infrastruktur</h4>
+              <ul class="check">
+                <li>Die virtuelle Umgebung besteht aus mindestens zwei Windows Servern, zwei Clients und einer Linux basierten Firewall</li>
+                <li>Die Domäne ist eingerichtet und funktionsfähig</li>
+                <li>Clients können erfolgreich der Domäne beitreten</li>
+              </ul>
+              <h4>Active Directory</h4>
+              <ul class="check">
+                <li>Eine logisch strukturierte OU-Struktur ist vorhanden</li>
+                <li>Für jede Abteilung bzw. Rolle wurde eine geeignete Gruppe definiert</li>
+                <li>Jeder Gruppe sind zumindest zwei Benutzer zugeordnet</li>
+                <li>Mindestens ein Benutzer und eine Gruppe wurde mittels Powershell erstellt und dokumentiert</li>
+              </ul>
+              <h4>Fileserver und Berechtigungen</h4>
+              <ul class="check">
+                <li>Freigaben für verschiedene Abteilungen sind eingerichtet</li>
+                <li>Zugriffsrechte werden ausschließlich über Gruppen (AGDLP-Prinzip) verwaltet</li>
+                <li>Share- und NTFS-Rechte sind getrennt definiert</li>
+                <li>Ein Home-Laufwerk mit einer festen Quota von 1 GB ist eingerichtet</li>
+                <li>Das Speichern unerlaubter Dateitypen (Musikdateien) ist eingeschränkt</li>
+              </ul>
+            </div>
+            <div>
+              <h4>Netzwerk</h4>
+              <ul class="check">
+                <li>Eine vollständige Netzwerktopologie ist erstellt und dokumentiert</li>
+                <li>Alle Systeme sind eindeutig adressierbar und erreichbar</li>
+                <li>Netzwerkdienste wie DNS funktionieren einwandfrei</li>
+              </ul>
+              <h4>VPN</h4>
+              <ul class="check">
+                <li>Ein VPN-Zugang wurde erfolgreich eingerichtet</li>
+                <li>Externe Clients können sich verbinden und auf freigegebene Ressourcen zugreifen</li>
+                <li>Der Domänen-Login über VPN ist möglich</li>
+                <li>VPN-Verbindungen werden protokolliert</li>
+              </ul>
+              <h4>Sicherheit, Wirtschaftlichkeit, Dokumentation</h4>
+              <ul class="check">
+                <li>Zugriffsrechte sind nach dem Prinzip der minimalen Berechtigungen vergeben</li>
+                <li>Sicherheitsmaßnahmen (Firewall, Zugriffsbeschränkungen) sind umgesetzt</li>
+                <li>Ein TOM-Dokument wurde erstellt</li>
+                <li>Eine vollständige Kostenaufstellung liegt in Form eines Excel Dokuments vor</li>
+                <li>Eine vollständige technische Dokumentation wurde erstellt</li>
+                <li>Das Projekt wird im Rahmen einer Präsentation strukturiert vorgestellt und durch praktische Demonstrationen ergänzt</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      
+        <div class="sec-card">
+          <h2>6. Validierung – Vorplanung (geplante Testfälle)</h2>
+          <p>Zur Überprüfung der definierten Anforderungen wurde ein strukturiertes Testkonzept erstellt. Die einzelnen Tests dienen dazu, die Funktionalität sowie die Sicherheit der implementierten Systeme nachvollziehbar zu bestätigen.</p>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Testfall</th><th>Benutzer / Szenario</th><th>Erwartetes Ergebnis</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td>TF1 – Zugriff auf HR-Freigabe</td><td>Developer versucht Zugriff auf HR-Share</td><td>Zugriff verweigert</td><td><span class="badge b-passed">Passed</span></td></tr>
+                <tr><td>TF2 – Zugriff auf Dev-Freigabe</td><td>Developer greift auf Development-Share zu</td><td>Zugriff erlaubt</td><td><span class="badge b-passed">Passed</span></td></tr>
+                <tr><td>TF3 – VPN-Verbindung</td><td>Externer Client verbindet sich per VPN</td><td>Verbindung hergestellt</td><td><span class="badge b-passed">Passed</span></td></tr>
+                <tr><td>TF4 – DNS-Auflösung</td><td>Ping und nslookup auf Server01</td><td>Namensauflösung erfolgreich</td><td><span class="badge b-passed">Passed</span></td></tr>
+                <tr><td>TF5 – Speicherbegrenzung</td><td>Benutzer versucht Datei > 1 GB zu speichern</td><td>Speicherung blockiert</td><td><span class="badge b-passed">Passed</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      
+        <div class="sec-card">
+          <h2>7. Zeitliche Planung</h2>
+          <div class="two-col">
+            <div>
+              <h3>Phasenübersicht</h3>
+              <div class="tbl-wrap">
+                <table>
+                  <thead><tr><th>Phase</th><th class="r">Geplante Stunden</th></tr></thead>
+                  <tbody>
+                    <tr><td>Planung</td><td class="r">6 h</td></tr>
+                    <tr><td>Umsetzung</td><td class="r">10 h</td></tr>
+                    <tr><td>Tests &amp; Dokumentation</td><td class="r">6 h</td></tr>
+                    <tr><td>Präsentation</td><td class="r">4 h</td></tr>
+                    <tr class="total"><td>Gesamt</td><td class="r">34 h</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div>
+              <h3>Detailplanung</h3>
+              <div class="tbl-wrap">
+                <table>
+                  <thead><tr><th>Tätigkeit</th><th class="r">Zeit</th></tr></thead>
+                  <tbody>
+                    <tr><td>Einlesen Aufgabenstellung</td><td class="r">1 h</td></tr>
+                    <tr><td>Firmenkonzept und Struktur erstellen</td><td class="r">1 h</td></tr>
+                    <tr><td>Netzwerk &amp; IP-Konzept erstellen</td><td class="r">1 h</td></tr>
+                    <tr><td>Active Directory Struktur planen</td><td class="r">1 h</td></tr>
+                    <tr><td>Sicherheitskonzept überlegen</td><td class="r">1 h</td></tr>
+                    <tr><td>Dokumentationsstruktur erstellen</td><td class="r">1 h</td></tr>
+                    <tr><td>Virtualisierungsumgebung vorbereiten</td><td class="r">1 h</td></tr>
+                    <tr><td>DC01 installieren und konfigurieren</td><td class="r">1 h</td></tr>
+                    <tr><td>Active Directory einrichten (OU, Domain)</td><td class="r">2 h</td></tr>
+                    <tr><td>Benutzer &amp; Gruppen erstellen</td><td class="r">2 h</td></tr>
+                    <tr><td>Powershell (User + Gruppen)</td><td class="r">1 h</td></tr>
+                    <tr><td>Fileserver installieren und konfigurieren</td><td class="r">2 h</td></tr>
+                    <tr><td>Freigaben &amp; Berechtigungen setzen</td><td class="r">2 h</td></tr>
+                    <tr><td>VPN konfigurieren</td><td class="r">2 h</td></tr>
+                    <tr><td>Netzwerk im Packet Tracer erstellen</td><td class="r">1 h</td></tr>
+                    <tr><td>Zugriffstest durchführen</td><td class="r">1 h</td></tr>
+                    <tr><td>VPN-Test durchführen</td><td class="r">1 h</td></tr>
+                    <tr><td>DNS &amp; Netzwerk prüfen</td><td class="r">1 h</td></tr>
+                    <tr><td>Projektdokumentation schreiben</td><td class="r">3 h</td></tr>
+                    <tr><td>Screenshots erstellen und einbauen, falls nötig</td><td class="r">2 h</td></tr>
+                    <tr><td>Powerpoint erstellen</td><td class="r">3 h</td></tr>
+                    <tr><td>Präsentation üben und finalisieren</td><td class="r">1 h</td></tr>
+                    <tr class="total"><td>Gesamt</td><td class="r">34 h</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+        <div class="sec-card" id="arbeitspakete">
+          <h2>8. Praktische Umsetzung – Arbeitspakete AP01–AP19</h2>
+          <p style="margin-bottom:16px">Jedes Arbeitspaket behandelt einen spezifischen Teilbereich der IT-Infrastruktur und wird einheitlich dokumentiert. Durch diese strukturierte Herangehensweise wird sichergestellt, dass sowohl die technische Umsetzung als auch die zugrunde liegende Entscheidung transparent und nachvollziehbar dargestellt werden. Mit den Navigations-Buttons gelangen Sie direkt zum dazugehörigen Testfall.</p>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('ap01')" id="btn_ap01">
+            <span><span class="apn">AP01</span> Vorbereitung der virtuellen Umgebung</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="ap01" class="ap-acc-content">
+            <div class="ap-meta">
+              <div class="ap-meta-item"><div class="lbl">Datum</div><div class="val">06.06.2026</div></div>
+              <div class="ap-meta-item"><div class="lbl">Dauer</div><div class="val">1 h</div></div>
+              <div class="ap-meta-item"><div class="lbl">Status</div><div class="val"><span class="badge b-passed">Abgeschlossen</span></div></div>
+            </div>
+            <div class="ap-section"><div class="ap-section-title">Ziel</div><p>die Bereitstellung einer virtualisierten Umgebung welche als Grundlage für die Umsetzung der geplanten IT-Struktur dient</p></div>
+            <div class="ap-section"><div class="ap-section-title">Beschreibung / Inhalt</div><p>In diesem Arbeitspaket werden mehrere virtuelle Maschinen erstellt und konfiguriert, um eine realistische Unternehmensumgebung abzubilden. Dabei wird zwischen Server und Client-Systemen unterschieden.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Technische Umsetzung</div><p>Es wurden mehrere virtuelle Maschinen erstellt, darunter ein Domain-Controller, ein Fileserver sowie Client-Systeme für interne und externe Zugriffe. Die virtuellen Maschinen wurden mit entsprechenden Ressourcen ausgestattet und in ein internes Netzwerk integriert. Zusätzlich wurde ein externes Netzwerk zur Simulation des Internets eingerichtet.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Begründung</div><p>Die Nutzung einer virtualisierten Testumgebung ermöglicht eine flexible und sichere Umsetzung der IT-Infrastruktur. Durch die Trennung von internen und externen Netzwerken kann eine realistische Simulation von Unternehmensbedingungen, insbesondere im Hinblick auf Sicherheitsaspekte, erreicht werden.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Ergebnis</div><p>Die virtuelle Umgebung wurde erfolgreich eingerichtet und stellt eine stabile Grundlage für die weitere Umsetzung der IT-Infrastruktur dar.</p></div>
+            <button class="sc-btn" style="margin-top: 10px;" onclick="document.getElementById('tc_01_content').classList.add('open'); document.getElementById('btn_tc_01').classList.add('open'); document.getElementById('btn_tc_01').scrollIntoView();">Zum Testfall navigieren (TC_AP01_NR01)</button>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('ap02')" id="btn_ap02">
+            <span><span class="apn">AP02</span> Installation und Konfiguration des Domain Controllers (DC01)</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="ap02" class="ap-acc-content">
+            <div class="ap-meta">
+              <div class="ap-meta-item"><div class="lbl">Datum</div><div class="val">06.06.2026</div></div>
+              <div class="ap-meta-item"><div class="lbl">Dauer</div><div class="val">1 h</div></div>
+              <div class="ap-meta-item"><div class="lbl">Status</div><div class="val"><span class="badge b-passed">Abgeschlossen</span></div></div>
+            </div>
+            <div class="ap-section"><div class="ap-section-title">Ziel</div><p>die Einrichtung eines Domain Controllers als zentrale Instanz zur Verwaltung o Benutzer, Gruppen und Ressourcen innerhalb der IT-Infrastruktur</p></div>
+            <div class="ap-section"><div class="ap-section-title">Beschreibung / Inhalt</div><p>Im Rahmen dieses Arbeitspakets wird ein Windows Server installiert und als Domain Controller konfiguriert. Dabei werden die Dienste Active Directory Domain Services sowie DNS eingerichtet und eine neue Domäne erstellt.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Technische Umsetzung</div><p>Der Server wurde zunächst mit einem eindeutigen Namen versehen und mit einer statischen IP-Adresse konfiguriert. Anschließend wurden die berechtigten Rollen Active Directory Domain Services und DNS installiert. Im nächsten Schritt wurde der Server zu einem Domaincontroller hochgestuft und die Domäne kritsolutions.local erstellt. Der Server steht nach einem Neustart als Verwaltungsinstanz zur Verfügung.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Begründung</div><p>Die zentrale Verwaltung über AD ermöglicht eine strukturierte uns sichere Organisation von Benutzer und Ressourcen. Die Integration eines DNS-Dienstes stellt sicher, dass die Namensauflösung innerhalb der Domäne funktioniert, was eine grundlegende Voraussetzung für den Betrieb von Active Directory darstellt.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Ergebnis</div><p>Domaincontroller wurde erfolgreich eingerichtet und stellt die zentrale Grundlage für die weitere Umsetzung der IT-Infrastruktur dar.</p></div>
+            <button class="sc-btn" style="margin-top: 10px;" onclick="document.getElementById('tc_02_content').classList.add('open'); document.getElementById('btn_tc_02').classList.add('open'); document.getElementById('btn_tc_02').scrollIntoView();">Zum Testfall navigieren (TC_AP02_NR01)</button>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('ap03')" id="btn_ap03">
+            <span><span class="apn">AP03</span> Überprüfung der DNS-Funktionalität</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="ap03" class="ap-acc-content">
+            <div class="ap-meta">
+              <div class="ap-meta-item"><div class="lbl">Datum</div><div class="val">06.06.2026</div></div>
+              <div class="ap-meta-item"><div class="lbl">Dauer</div><div class="val">0.5 h</div></div>
+              <div class="ap-meta-item"><div class="lbl">Status</div><div class="val"><span class="badge b-passed">Abgeschlossen</span></div></div>
+            </div>
+            <div class="ap-section"><div class="ap-section-title">Ziel</div><p>die Sicherstellung einer funktionierenden Namensauflösung innerhalb der Domäne zu gewährleisten</p></div>
+            <div class="ap-section"><div class="ap-section-title">Beschreibung / Inhalt</div><p>In diesem Arbeitspaket wird die DNS-Funktionalität überprüft und sichergestellt, dass die Namensauflösung innerhalb des Netzwerks korrekt funktioniert. Zusätzlich wird optional eine Reverse Lookup Zone eingerichtet, um die Auflösung von IP-Adressen in Hostnamen zu ermöglichen.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Technische Umsetzung</div><p>Die DNS-Funktion wurde durch gezielte Abfragen mittels ping und nslookup überprüft. Dabei wurde sichergestellt, dass der Domain Controller über seinen vollständig qualifizierten Domänennamen korrekt aufgelöst wird. Zusätzlich wurde eine Reverse Lookup Zone erstellt, um die Rückwärtsauflösung zu ermöglichen.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Begründung</div><p>Die korrekte Funktion von DNS ist eine grundlegende Voraussetzung für Active Directory, da sämtliche Dienste auf eine funktionierende Namensauflösung angewiesen sind. Durch die Überprüfung wird sichergestellt, dass spätere Prozesse, wie beispielsweise der Domain-Join von Clients, fehlerfrei durchgeführt werden können.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Ergebnis</div><p>Die DNS-Funktionalität wurde erfolgreich überprüft und funktioniert fehlerfrei innerhalb der Domäne</p></div>
+            <button class="sc-btn" style="margin-top: 10px;" onclick="document.getElementById('tc_03_content').classList.add('open'); document.getElementById('btn_tc_03').classList.add('open'); document.getElementById('btn_tc_03').scrollIntoView();">Zum Testfall navigieren (TC_AP03_NR01)</button>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('ap04')" id="btn_ap04">
+            <span><span class="apn">AP04</span> Aufbau der Active Directory Struktur</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="ap04" class="ap-acc-content">
+            <div class="ap-meta">
+              <div class="ap-meta-item"><div class="lbl">Datum</div><div class="val">06.06.2026</div></div>
+              <div class="ap-meta-item"><div class="lbl">Dauer</div><div class="val">1 h</div></div>
+              <div class="ap-meta-item"><div class="lbl">Status</div><div class="val"><span class="badge b-passed">Abgeschlossen</span></div></div>
+            </div>
+            <div class="ap-section"><div class="ap-section-title">Ziel</div><p>der Aufbau einer strukturierten Active Directory Umgebung zur übersichtlichen Verwaltung von Benutzern, Gruppen und Systemen</p></div>
+            <div class="ap-section"><div class="ap-section-title">Beschreibung / Inhalt</div><p>In diesem Arbeitspaket wird eine Organisationseinheiten Struktur (OU-Struktur) erstellt, welche die Unternehmensorganisation widerspiegelt. Dabei werden Benutzer, Computer und Gruppen logisch voneinander getrennt.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Technische Umsetzung</div><p>Es wurden mehrere Organisationseinheiten innerhalb der Domäne erstellt, um die einzelnen Bestandteile der IT-Infrastruktur abzubilden. Für Benutzer wurde eine eigene OU-Struktur nach Abteilungen aufgebaut, während Computer und Gruppen jeweils in separaten Organisationseinheiten verwaltet werden können. Innerhalb der IT-Abteilung werden zusätzliche Unterteilungen in verschiedene Rollen vorgenommen, um eine feinere Strukturierung zu ermöglichen.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Begründung</div><p>Die Trennung von Benutzern, Computern und Gruppen ermöglicht eine klare und übersichtliche Struktur im Active Directory. Durch die Unterteilung nach Abteilungen können später gezielt Gruppenrichtlinien angewendet sowie Berechtigungen effizient verwaltet werden. Diese Struktur bildet die Grundlage für die Umsetzung des Berechtigungskonzepts im weiteren Projektverlauf.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Ergebnis</div><p>Die Active Directory Struktur wurde erfolgreich aufgebaut und ermöglicht eine übersichtliche Organisation der IT-Objekte.</p></div>
+            <button class="sc-btn" style="margin-top: 10px;" onclick="document.getElementById('tc_04_content').classList.add('open'); document.getElementById('btn_tc_04').classList.add('open'); document.getElementById('btn_tc_04').scrollIntoView();">Zum Testfall navigieren (TC_AP04_NR01)</button>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('ap05')" id="btn_ap05">
+            <span><span class="apn">AP05</span> Erstellung von Benutzerkonten</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="ap05" class="ap-acc-content">
+            <div class="ap-meta">
+              <div class="ap-meta-item"><div class="lbl">Datum</div><div class="val">06.06.2026</div></div>
+              <div class="ap-meta-item"><div class="lbl">Dauer</div><div class="val">1.5 h</div></div>
+              <div class="ap-meta-item"><div class="lbl">Status</div><div class="val"><span class="badge b-passed">Abgeschlossen</span></div></div>
+            </div>
+            <div class="ap-section"><div class="ap-section-title">Ziel</div><p>Die Erstellung von Benutzerkonten zur Abbildung der Mitarbeiterstruktur innerhalb des Unternehmens.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Beschreibung / Inhalt</div><p>In diesem Arbeitspaket werden Benutzerkonten für die verschiedenen Abteilungen des Unternehmens erstellt. Dabei erfolgt eine Zuordnung zu den zuvor definierten Organisationseinheiten.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Technische Umsetzung</div><p>Es wurden für jede Abteilung mehrere Benutzerkonten im Active Directory erstellt. Die Benutzer wurden entsprechend ihrer Rolle den jeweiligen Organisationseinheiten zugeordnet. Dabei wurde eine einheitliche Namenskonvention verwendet, um eine klare und nachvollziehbare Struktur zu gewährleisten.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Begründung</div><p>Die Erstellung einzelner Benutzerkonten ermöglicht eine realitätsnahe Abbildung der Unternehmensstruktur. Durch die strukturierte Verteilung auf Organisationseinheiten wird die spätere Verwaltung von Berechtigungen und Richtlinien deutlich vereinfacht.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Ergebnis</div><p>Die Benutzerkonten wurden erfolgreich erstellt und sind den jeweiligen Organisationseinheiten zugeordnet.</p></div>
+            <button class="sc-btn" style="margin-top: 10px;" onclick="document.getElementById('tc_05_content').classList.add('open'); document.getElementById('btn_tc_05').classList.add('open'); document.getElementById('btn_tc_05').scrollIntoView();">Zum Testfall navigieren (TC_AP05_NR01)</button>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('ap06')" id="btn_ap06">
+            <span><span class="apn">AP06</span> Erstellung von Gruppen</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="ap06" class="ap-acc-content">
+            <div class="ap-meta">
+              <div class="ap-meta-item"><div class="lbl">Datum</div><div class="val">06.06.2026</div></div>
+              <div class="ap-meta-item"><div class="lbl">Dauer</div><div class="val">1 h</div></div>
+              <div class="ap-meta-item"><div class="lbl">Status</div><div class="val"><span class="badge b-passed">Abgeschlossen</span></div></div>
+            </div>
+            <div class="ap-section"><div class="ap-section-title">Ziel</div><p>die Erstellung von Gruppen zur strukturierten Verwaltung von Zugriffsrechten innerhalb der IT-Infrastruktur</p></div>
+            <div class="ap-section"><div class="ap-section-title">Beschreibung / Inhalt</div><p>In diesem Arbeitspaket werden Gruppen für die verschiedenen Abteilungen und Rollen des Unternehmens erstellt. Diese dienen später zur Zuweisung von Berechtigungen auf Ressourcen.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Technische Umsetzung</div><p>Es wurden mehrere Sicherheitsgruppen im Active Directory erstellt und in einer seperaten Organisationseinheit verwaltet. Die Gruppen wurden nach einer einheitlichen Namenskonvention benannt und stellen die Grundlage für die spätere Umsetzung des Berechtigungskonzepts dar.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Begründung</div><p>Die Verwendung von Gruppen zur Vergabe von Berechtigungen ermöglicht eine effiziente und skalierbare Verwaltung von Zugriffen. Durch die zentrale Steuerung über Gruppen wird sichergestellt, dass Änderungen an Berechtigungen schnell und übersichtlich umgesetzt werden können.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Ergebnis</div><p>Die benötigten Gruppen wurden erfolgreich erstellt und stehen für die weitere Konfiguration der Zugriffsrechte zur Verfügung.</p></div>
+            <button class="sc-btn" style="margin-top: 10px;" onclick="document.getElementById('tc_06_content').classList.add('open'); document.getElementById('btn_tc_06').classList.add('open'); document.getElementById('btn_tc_06').scrollIntoView();">Zum Testfall navigieren (TC_AP06_NR01)</button>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('ap07')" id="btn_ap07">
+            <span><span class="apn">AP07</span> Umsetzung des AGDLP-Prinzips</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="ap07" class="ap-acc-content">
+            <div class="ap-meta">
+              <div class="ap-meta-item"><div class="lbl">Datum</div><div class="val">06.06.2026</div></div>
+              <div class="ap-meta-item"><div class="lbl">Dauer</div><div class="val">1 h</div></div>
+              <div class="ap-meta-item"><div class="lbl">Status</div><div class="val"><span class="badge b-passed">Abgeschlossen</span></div></div>
+            </div>
+            <div class="ap-section"><div class="ap-section-title">Ziel</div><p>die strukturierte Zuordnung von Benutzerkonten zu Gruppen zur Vorbereitung einer effizienten und skalierbaren Rechteverwaltung</p></div>
+            <div class="ap-section"><div class="ap-section-title">Beschreibung / Inhalt</div><p>In diesem Arbeitspaket werden die zuvor erstellten Benutzerkonten den entsprechenden Gruppen zugeordnet. Dies erfolgt auf Basis des AGDLP-Prinzips, welches eine klare Trennung zwischen Benutzerkonten und Berechtigungen ermöglicht.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Technische Umsetzung</div><p>Die Benutzerkonten wurden im Active Directory den jeweils passenden Gruppen zugewiesen. Dabei wurden die Benutzer entsprechend ihrer Abteilung und Rolle gruppiert, sodass alle Benutzer einer rolle in einer gemeinsamen Gruppe verwaltet werden.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Begründung</div><p>Die Nutzung des AGDLP-Prinzips ermöglicht eine effiziente und übersichtliche Verwaltung von Berechtigungen. Durch die Zuordnung von Benutzern zu Gruppen können Zugriffsrechte zentral gesteuert werden, ohne einzelne Benutzer direkt berechtigen zu müssen. Dies vereinfacht die Verwaltung und erhöht die Sicherheit der IT-Infrastruktur.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Ergebnis</div><p>Die Benutzer wurden erfolgreich den entsprechenden Gruppen zugeordnet und bilden die Grundlage für die spätere Umsetzung der Zugriffsrechte.</p></div>
+            <button class="sc-btn" style="margin-top: 10px;" onclick="document.getElementById('tc_07_content').classList.add('open'); document.getElementById('btn_tc_07').classList.add('open'); document.getElementById('btn_tc_07').scrollIntoView();">Zum Testfall navigieren (TC_AP07_NR01)</button>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('ap08')" id="btn_ap08">
+            <span><span class="apn">AP08</span> Erstellung mittels Powershell</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="ap08" class="ap-acc-content">
+            <div class="ap-meta">
+              <div class="ap-meta-item"><div class="lbl">Datum</div><div class="val">06.06.2026</div></div>
+              <div class="ap-meta-item"><div class="lbl">Dauer</div><div class="val">1 h</div></div>
+              <div class="ap-meta-item"><div class="lbl">Status</div><div class="val"><span class="badge b-passed">Abgeschlossen</span></div></div>
+            </div>
+            <div class="ap-section"><div class="ap-section-title">Ziel</div><p>die Erstellung von Benutzer- und Gruppenobjekten mithilfe von Powershell zur Demonstration automatisierter Verwaltungsprozesse.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Beschreibung / Inhalt</div><p>In diesem Arbeitspaket werden ausgewählte Objekte im Active Directory über die Powershell erstellt. Dabei wird ein Benutzer sowie eine Gruppe automatisiert angelegt. Zusätzlich wird die Ausführung der Befehle mittels eines Transcripts dokumentiert.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Technische Umsetzung</div><p>Die Erstellung der Objekte erfolgt über Powershell-Befehle. Zunächst wurde eine Sicherheitsgruppe definiert und anschließend ein Benutzerkonto erstellt. Die Aktionen wurden durch ein Transcript protokolliert, welches zur Nachvollziehbarkeit der Durchführung dient.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Begründung</div><p>Die Nutzung von Powershell ermöglicht eine effiziente und automatisierte Verwaltung von Benutzer- und Gruppenobjekten. Gerade in größeren IT-Umgebungen stellt die Automatisierung einen wichtigen Vorteil dar, da wiederkehrende Aufgaben schneller und konsistenter durchgeführt werden können.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Ergebnis</div><p>Die Benutzer- und Gruppenobjekte wurden erfolgreich mittels Powershell erstellt und sind im Active Directory sichtbar.</p></div>
+            <button class="sc-btn" style="margin-top: 10px;" onclick="document.getElementById('tc_08_content').classList.add('open'); document.getElementById('btn_tc_08').classList.add('open'); document.getElementById('btn_tc_08').scrollIntoView();">Zum Testfall navigieren (TC_AP08_NR01)</button>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('ap09')" id="btn_ap09">
+            <span><span class="apn">AP09</span> Einrichtung des Fileservers (FS01)</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="ap09" class="ap-acc-content">
+            <div class="ap-meta">
+              <div class="ap-meta-item"><div class="lbl">Datum</div><div class="val">07.06.2026</div></div>
+              <div class="ap-meta-item"><div class="lbl">Dauer</div><div class="val">1.5 h</div></div>
+              <div class="ap-meta-item"><div class="lbl">Status</div><div class="val"><span class="badge b-passed">Abgeschlossen</span></div></div>
+            </div>
+            <div class="ap-section"><div class="ap-section-title">Ziel</div><p>Die Bereitstellung eines zentralen Fileservers zur Speicherung und Organisation von Unternehmensdaten.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Beschreibung / Inhalt</div><p>In diesem Arbeitspaket wird ein zusätzlicher Server als Fileserver eingerichtet und in die bestehende Domäne integriert. Außerdem wird eine grundlegende Ordnerstruktur für die verschiedenen Abteilungen erstellt.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Technische Umsetzung</div><p>Der Server wurde mit einer statischen IP-Adresse konfiguriert und anschließend in die Domäne aufgenommen. Nach erfolgreicher Anmeldung wurden mehrere Ordner angelegt, welche die Abteilungen des Unternehmens widerspiegeln und als Grundlage für die spätere Freigabe von Ressourcen dienen.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Begründung</div><p>Ein zentraler Fileserver ermöglicht eine strukturierte und sichere Speicherung von Daten. Durch die Trennung nach Abteilungen können später gezielte Zugriffsrechte vergeben und Daten effizient verwaltet werden.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Ergebnis</div><p>Der Fileserver wurde erfolgreich eingerichtet und ist Teil der Domäne. Die grundlegende Ordnerstruktur wurde erstellt.</p></div>
+            <button class="sc-btn" style="margin-top: 10px;" onclick="document.getElementById('tc_09_content').classList.add('open'); document.getElementById('btn_tc_09').classList.add('open'); document.getElementById('btn_tc_09').scrollIntoView();">Zum Testfall navigieren (TC_AP09_NR01)</button>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('ap10')" id="btn_ap10">
+            <span><span class="apn">AP10</span> Erstellung von Netzwerkfreigaben</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="ap10" class="ap-acc-content">
+            <div class="ap-meta">
+              <div class="ap-meta-item"><div class="lbl">Datum</div><div class="val">07.06.2026</div></div>
+              <div class="ap-meta-item"><div class="lbl">Dauer</div><div class="val">1 h</div></div>
+              <div class="ap-meta-item"><div class="lbl">Status</div><div class="val"><span class="badge b-passed">Abgeschlossen</span></div></div>
+            </div>
+            <div class="ap-section"><div class="ap-section-title">Ziel</div><p>die Bereitstellung von Netzwerkfreigaben, über die Benutzer auf zentrale Daten des Unternehmens zugreifen können.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Beschreibung / Inhalt</div><p>In diesem Arbeitspaket werden die zuvor erstellten Ordner auf dem Fileserver als Netzwerkfreigaben bereitgestellt. Dadurch wird der Zugriff auf diese Ressourcen über das Netzwerk ermöglicht.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Technische Umsetzung</div><p>Die vorhandenen Ordner wurden über die Freigabeeinstellungen des Betriebssystems als Netzwerkfreigaben eingerichtet. Dabei wurde für jede Abteilung eine eigene Freigabe erstellt, sodass eine klare Trennung der Daten gewährleistet ist. Die Freigaben sind über den Fileserver erreichbar und stehen für den Zugriff im Netzwerk zur Verfügung.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Begründung</div><p>Die Bereitstellung von Netzwerkfreigaben ermöglicht es Benutzern, zentral auf Daten zuzugreifen. Durch die Trennung nach Abteilungen wird eine strukturierte und übersichtliche Datenorganisation erreicht. Dies bildet die Grundlage für die anschließende Umsetzung eines differenzierten Berechtigungskonzepts.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Ergebnis</div><p>Die Netzwerkfreigaben wurden erfolgreich erstellt und sind im Netzwerk erreichbar.</p></div>
+            <button class="sc-btn" style="margin-top: 10px;" onclick="document.getElementById('tc_10_content').classList.add('open'); document.getElementById('btn_tc_10').classList.add('open'); document.getElementById('btn_tc_10').scrollIntoView();">Zum Testfall navigieren (TC_AP10_NR01)</button>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('ap11')" id="btn_ap11">
+            <span><span class="apn">AP11</span> Umsetzung des Berechtigungskonzepts</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="ap11" class="ap-acc-content">
+            <div class="ap-meta">
+              <div class="ap-meta-item"><div class="lbl">Datum</div><div class="val">07.06.2026</div></div>
+              <div class="ap-meta-item"><div class="lbl">Dauer</div><div class="val">1 h</div></div>
+              <div class="ap-meta-item"><div class="lbl">Status</div><div class="val"><span class="badge b-passed">Abgeschlossen</span></div></div>
+            </div>
+            <div class="ap-section"><div class="ap-section-title">Ziel</div><p>die Umsetzung eines strukturierten und sicheren Berechtigungskonzepts zur Steuerung von Zugriffen auf Netzwerkressourcen</p></div>
+            <div class="ap-section"><div class="ap-section-title">Beschreibung / Inhalt</div><p>In diesem Arbeitspaket werden Zugriffsrechte auf die zuvor erstellten Netzwerkfreigaben definiert. Die Vergabe erfolgt über Gruppen, wobei Benutzer indirekt über ihre Gruppenzugehörigkeit auf Ressourcen zugreifen.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Technische Umsetzung</div><p>Die Berechtigungen wurden auf Ebene des Dateisystems (NTFS) gesetzt. Dabei wurden die jeweiligen Gruppen den entsprechenden Verzeichnissen hinzugefügt und mit passenden Rechten ausgestattet. Die Steuerung des Zugriffs erfolgt ausschließlich über Gruppen, wodurch eine zentrale Verwaltung gewährleistet wird.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Begründung</div><p>Die Umsetzung des Berechtigungskonzepts erfolgt nach dem AGDLP-Prinzip, welches eine klare Trennung zwischen Benutzern und Berechtigungen ermöglicht. Durch die Nutzung von Gruppen wird eine skalierbare und wartungsfreundliche Rechteverwaltung sichergestellt. Direkte Benutzerberechtigungen werden vermieden, um die Übersichtlichkeit und Sicherheit zu erhöhen.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Ergebnis</div><p>Das Berechtigungskonzept wurde erfolgreich umgesetzt. Benutzer können entsprechend ihrer Zugehörigkeit auf die vorgesehenen Ressourcen zugreifen.</p></div>
+            <button class="sc-btn" style="margin-top: 10px;" onclick="document.getElementById('tc_11_content').classList.add('open'); document.getElementById('btn_tc_11').classList.add('open'); document.getElementById('btn_tc_11').scrollIntoView();">Zum Testfall navigieren (TC_AP11_NR01)</button>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('ap12')" id="btn_ap12">
+            <span><span class="apn">AP12</span> Einrichtung von Home-Laufwerken</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="ap12" class="ap-acc-content">
+            <div class="ap-meta">
+              <div class="ap-meta-item"><div class="lbl">Datum</div><div class="val">07.06.2026</div></div>
+              <div class="ap-meta-item"><div class="lbl">Dauer</div><div class="val">1 h</div></div>
+              <div class="ap-meta-item"><div class="lbl">Status</div><div class="val"><span class="badge b-passed">Abgeschlossen</span></div></div>
+            </div>
+            <div class="ap-section"><div class="ap-section-title">Ziel</div><p>Individuelle Speicherbereiche für Benutzer innerhalb des Netzwerks bereitzustellen</p></div>
+            <div class="ap-section"><div class="ap-section-title">Beschreibung / Inhalt</div><p>Im Rahmen dieses Arbeitspakets werden persönliche Benutzerverzeichnisse eingerichtet, auf die ausschließlich der jeweilige Benutzer Zugriff hat. Diese werden als Home-Laufwerke automatisch beim Login bereitgestellt.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Technische Umsetzung</div><p>Auf dem Fileserver wurde eine zentrale Freigabe für Benutzerverzeichnisse eingerichtet. Anschließend wurden die Benutzerkonten so konfiguriert, dass ihnen automatisch ein persönliches Laufwerk zugewiesen wird.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Begründung</div><p>Die Bereitstellung von Home-Laufwerken ermöglicht eine klare Trennung von Benutzerdaten und stellt sicher, dass jeder Benutzer ausschließlich Zugriff auf seine eigenen Daten erhält. Dies erhöht sowohl die Datensicherheit als auch die Übersichtlichkeit innerhalb der IT Infrastruktur.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Ergebnis</div><p>Die Home-Laufwerke wurden erfolgreich eingerichtet. Benutzer erhalten beim Login automatisch Zugriff auf ihren persönlichen Speicherbereich.</p></div>
+            <button class="sc-btn" style="margin-top: 10px;" onclick="document.getElementById('tc_12_content').classList.add('open'); document.getElementById('btn_tc_12').classList.add('open'); document.getElementById('btn_tc_12').scrollIntoView();">Zum Testfall navigieren (TC_AP12_NR01)</button>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('ap13')" id="btn_ap13">
+            <span><span class="apn">AP13</span> Implementierung von Speicherbegrenzungen</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="ap13" class="ap-acc-content">
+            <div class="ap-meta">
+              <div class="ap-meta-item"><div class="lbl">Datum</div><div class="val">07.06.2026</div></div>
+              <div class="ap-meta-item"><div class="lbl">Dauer</div><div class="val">1 h</div></div>
+              <div class="ap-meta-item"><div class="lbl">Status</div><div class="val"><span class="badge b-passed">Abgeschlossen</span></div></div>
+            </div>
+            <div class="ap-section"><div class="ap-section-title">Ziel</div><p>die Begrenzung des verfügbaren Speicherplatzes für Benutzer, um eine effiziente und kontrollierte Nutzung der Serverressourcen sicherzustellen.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Beschreibung / Inhalt</div><p>In diesem Arbeitspaket wird eine Speicherbegrenzung für Benutzerverzeichnisse eingerichtet. Dies erfolgt mithilfe des File Server Ressource Manager (FSRM). Die Begrenzung stellt sicher, dass Benutzer nur eine definierte Menge an Speicherplatz nutzen können.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Technische Umsetzung</div><p>Zunächst wurde das Feature „File Server Ressource Manager“ installiert. Anschließend wurde ein Quota Template mit einer Speicherbegrenzung von 1GB erstellt und auf den entsprechenden Speicherbereich angewendet. Die Begrenzung wurde automatisch auf alle relevanten Benutzerverzeichnisse übertragen.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Begründung</div><p>Die Begrenzung des Speicherplatzes verhindert eine übermäßige Nutzung der Ressourcen durch einzelne Benutzer. Dies trägt zur Stabilität und Effizienz der gesamten IT-Infrastruktur bei und ermöglicht eine faire Verteilung der verfügbaren Speicherkapazität.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Ergebnis</div><p>Die Speicherbegrenzung wurde erfolgreich eingerichtet und wird auf alle Benutzerverzeichnisse angewendet.</p></div>
+            <button class="sc-btn" style="margin-top: 10px;" onclick="document.getElementById('tc_13_content').classList.add('open'); document.getElementById('btn_tc_13').classList.add('open'); document.getElementById('btn_tc_13').scrollIntoView();">Zum Testfall navigieren (TC_AP13_NR01)</button>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('ap14')" id="btn_ap14">
+            <span><span class="apn">AP14</span> Einschränkung von Dateitypen</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="ap14" class="ap-acc-content">
+            <div class="ap-meta">
+              <div class="ap-meta-item"><div class="lbl">Datum</div><div class="val">07.06.2026</div></div>
+              <div class="ap-meta-item"><div class="lbl">Dauer</div><div class="val">1 h</div></div>
+              <div class="ap-meta-item"><div class="lbl">Status</div><div class="val"><span class="badge b-passed">Abgeschlossen</span></div></div>
+            </div>
+            <div class="ap-section"><div class="ap-section-title">Ziel</div><p>die Einschränkung unerwünschter Dateitypen, um die Nutzung des Speicherplatzes und die Sicherheit der IT-Infrastruktur zu verbessern.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Beschreibung / Inhalt</div><p>In diesem Arbeitspaket wird die Speicherung bestimmter Dateitypen, wie Musik- oder Videodateien, beschränkt. Dies erfolgt mithilfe des File Server Ressource Managers, welcher eine gezielte Kontrolle der gespeicherten Dateien ermöglicht.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Technische Umsetzung</div><p>Es wurde ein File Screen Template erstellt, welches bestimmte Dateitypen blockiert. Anschließend wurde dieses Template auf die jeweiligen Verzeichnisse angewendet, sodass das Speichern dieser Dateien innerhalb der Benutzerbereiche verhindert wird.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Begründung</div><p>Die Einschränkung von Dateitypen dient dazu, unnötige Nutzung von Speicherplatz sowie potenzielle Sicherheitsrisiken zu reduzieren. Besonders Dateien wie Multimedia-Dateien stellen in Unternehmensumgebungen häufig keinen geschäftlichen Mehrwert dar.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Ergebnis</div><p>Die Einschränkung von Dateitypen wurde erfolgreich umgesetzt. Unerwünschte Dateien können nicht mehr gespeichert werden</p></div>
+            <button class="sc-btn" style="margin-top: 10px;" onclick="document.getElementById('tc_14_content').classList.add('open'); document.getElementById('btn_tc_14').classList.add('open'); document.getElementById('btn_tc_14').scrollIntoView();">Zum Testfall navigieren (TC_AP14_NR01)</button>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('ap15')" id="btn_ap15">
+            <span><span class="apn">AP15</span> Einrichtung der Netzwerkstruktur</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="ap15" class="ap-acc-content">
+            <div class="ap-meta">
+              <div class="ap-meta-item"><div class="lbl">Datum</div><div class="val">07.06.2026</div></div>
+              <div class="ap-meta-item"><div class="lbl">Dauer</div><div class="val">1 h</div></div>
+              <div class="ap-meta-item"><div class="lbl">Status</div><div class="val"><span class="badge b-passed">Abgeschlossen</span></div></div>
+            </div>
+            <div class="ap-section"><div class="ap-section-title">Ziel</div><p>die Darstellung und Umsetzung der Netzwerkstruktur im Unternehmen.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Beschreibung / Inhalt</div><p>In diesem Arbeitspaket wird die geplante Netzwerkarchitektur mithilfe eines Netzwerk Simulators umgesetzt. Dabei werden die verschiedenen Komponenten miteinander verbunden und die Kommunikationswege abgebildet.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Technische Umsetzung</div><p>Die Netzwerkstruktur wurde im Packet Tracer modelliert. Hierbei wurden Server, Clients sowie Netzwerkkomponenten wie Switches und Router miteinander verbunden. Zusätzlich wurde das IP-Adresskonzept in die Konfiguration der Geräte integriert.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Begründung</div><p>Die visuelle Darstellung des Netzwerks ermöglicht ein besseres Verständnis der Architektur und der Kommunikation zwischen den einzelnen Komponenten. Sie dient außerdem als Grundlage für die Präsentation und erleichtert die Fehlersuche.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Ergebnis</div><p>Die Netzwerkstruktur wurde erfolgreich umgesetzt und stellt die Verbindung zwischen den einzelnen Systemen dar.</p></div>
+            <button class="sc-btn" style="margin-top: 10px;" onclick="document.getElementById('tc_15_content').classList.add('open'); document.getElementById('btn_tc_15').classList.add('open'); document.getElementById('btn_tc_15').scrollIntoView();">Zum Testfall navigieren (TC_AP15_NR01)</button>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('ap16')" id="btn_ap16">
+            <span><span class="apn">AP16</span> Einrichtung des VPN-Zugangs</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="ap16" class="ap-acc-content">
+            <div class="ap-meta">
+              <div class="ap-meta-item"><div class="lbl">Datum</div><div class="val">07.06.2026</div></div>
+              <div class="ap-meta-item"><div class="lbl">Dauer</div><div class="val">2 h</div></div>
+              <div class="ap-meta-item"><div class="lbl">Status</div><div class="val"><span class="badge b-passed">Abgeschlossen</span></div></div>
+            </div>
+            <div class="ap-section"><div class="ap-section-title">Ziel</div><p>die Bereitstellung eines sicheren Zugriffs auf das interne Netzwerk für externe Benutzer.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Beschreibung / Inhalt</div><p>In diesem Arbeitspaket wird ein VPN-Zugang eingerichtet, über den Benutzer von extern auf das interne Netzwerk zugreifen können. Dies ermöglicht insbesondere die Nutzung von Homeoffice-Arbeitsplätzen.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Technische Umsetzung</div><p>Es wurde eine Firewall mit VPN-Funktionalität implementiert und konfiguriert. Anschließend wurde ein Benutzer für den VPN-Zugriff erstellt und die benötigte Konfiguration auf einen externen Client eingerichtet. Nach erfolgreicher Verbindung konnte auf interne Ressourcen zugegriffen werden.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Begründung</div><p>Ein VPN ermöglicht einen sicheren Zugriff auf interne Ressourcen über öffentliche Netzwerke. Dies ist insbesondere für moderne Arbeitsweisen wie Homeoffice unerlässlich und trägt zur Flexibilität der IT-Infrastruktur bei.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Ergebnis</div><p>Der VPN-Zugang wurde erfolgreich eingerichtet. Externe Benutzer können sicher auf das interne Netzwerk zugreifen.</p></div>
+            <button class="sc-btn" style="margin-top: 10px;" onclick="document.getElementById('tc_16_content').classList.add('open'); document.getElementById('btn_tc_16').classList.add('open'); document.getElementById('btn_tc_16').scrollIntoView();">Zum Testfall navigieren (TC_AP16_NR01)</button>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('ap17')" id="btn_ap17">
+            <span><span class="apn">AP17</span> Aktivierung von Logging</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="ap17" class="ap-acc-content">
+            <div class="ap-meta">
+              <div class="ap-meta-item"><div class="lbl">Datum</div><div class="val">07.06.2026</div></div>
+              <div class="ap-meta-item"><div class="lbl">Dauer</div><div class="val">1 h</div></div>
+              <div class="ap-meta-item"><div class="lbl">Status</div><div class="val"><span class="badge b-passed">Abgeschlossen</span></div></div>
+            </div>
+            <div class="ap-section"><div class="ap-section-title">Ziel</div><p>die Aktivierung von Protokollierungsmechanismen zur Nachverfolgung von System- und Benutzeraktivitäten.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Beschreibung / Inhalt</div><p>In diesem Arbeitspaket wird die Protokollierung relevanter Ereignisse innerhalb der IT Infrastruktur aktiviert. Dies umfasst insbesondere Anmeldeereignisse sowie Zugriffe auf Systemressourcen.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Technische Umsetzung</div><p>Die Protokollierung wurde über Gruppenrichtlinien konfiguriert. Dabei wurden relevante Audit-Policies aktiviert, welche sicherstellen, dass sicherheitsrelevante Ereignisse erfasst und im System protokolliert werden. Die erzeugten Logs können über den Event Viewer eingesehen werden.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Begründung</div><p>Die Aktivierung von Logging ist ein zentraler Bestandteil der IT-Sicherheit. Sie ermöglicht die Nachvollziehbarkeit von Benutzeraktivitäten und unterstützt die Analyse von sicherheitsrelevanten Vorfällen.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Ergebnis</div><p>Das Logging wurde erfolgreich aktiviert. Relevante Ereignisse werden nun im System protokolliert und können ausgewertet werden.</p></div>
+            <button class="sc-btn" style="margin-top: 10px;" onclick="document.getElementById('tc_17_content').classList.add('open'); document.getElementById('btn_tc_17').classList.add('open'); document.getElementById('btn_tc_17').scrollIntoView();">Zum Testfall navigieren (TC_AP17_NR01)</button>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('ap18')" id="btn_ap18">
+            <span><span class="apn">AP18</span> Erstellung und Anwendung von Gruppenrichtlinien (GPOs)</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="ap18" class="ap-acc-content">
+            <div class="ap-meta">
+              <div class="ap-meta-item"><div class="lbl">Datum</div><div class="val">07.06.2026</div></div>
+              <div class="ap-meta-item"><div class="lbl">Dauer</div><div class="val">1 h</div></div>
+              <div class="ap-meta-item"><div class="lbl">Status</div><div class="val"><span class="badge b-passed">Abgeschlossen</span></div></div>
+            </div>
+            <div class="ap-section"><div class="ap-section-title">Ziel</div><p>die zentrale Steuerung von Benutzer- und Systemeinstellungen zur Erhöhung der Sicherheit und Standardisierung der IT-Infrastruktur</p></div>
+            <div class="ap-section"><div class="ap-section-title">Beschreibung / Inhalt</div><p>In diesem Arbeitspaket werden Gruppenrichtlinien erstellt und auf Organisationseinheiten angewendet. Diese ermöglichen die zentrale Durchsetzung von Sicherheitsrichtlinien sowie Einschränkungen für Benutzer.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Technische Umsetzung</div><p>Es wurde eine neue Gruppenrichtlinie erstellt und konfiguriert. Dabei wurden Sicherheitsrichtlinien wie Passwortvorgaben sowie Benutzerrestriktionen definiert. Die Gruppenrichtlinie wurde anschließend auf die entsprechende Organisationseinheit angewendet.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Begründung</div><p>Die Nutzung von Gruppenrichtlinien ermöglicht eine zentrale Steuerung von Systemeinstellungen. Dadurch kann ein einheitliches Sicherheitsniveau gewährleistet und administrative Aufgaben deutlich vereinfacht werden.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Ergebnis</div><p>Die Gruppenrichtlinien wurden erfolgreich erstellt und angewendet. Änderungen werden zentral auf die entsprechenden Benutzer angewendet.</p></div>
+            <button class="sc-btn" style="margin-top: 10px;" onclick="document.getElementById('tc_18_content').classList.add('open'); document.getElementById('btn_tc_18').classList.add('open'); document.getElementById('btn_tc_18').scrollIntoView();">Zum Testfall navigieren (TC_AP18_NR01)</button>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('ap19')" id="btn_ap19">
+            <span><span class="apn">AP19</span> Wirtschaftlichkeitsbetrachtung</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="ap19" class="ap-acc-content">
+            <div class="ap-meta">
+              <div class="ap-meta-item"><div class="lbl">Datum</div><div class="val">07.06.2026</div></div>
+              <div class="ap-meta-item"><div class="lbl">Dauer</div><div class="val">2 h</div></div>
+              <div class="ap-meta-item"><div class="lbl">Status</div><div class="val"><span class="badge b-passed">Abgeschlossen</span></div></div>
+            </div>
+            <div class="ap-section"><div class="ap-section-title">Ziel</div><p>die Bewertung der wirtschaftlichen Aspekte der implementierten IT-Infrastruktur</p></div>
+            <div class="ap-section"><div class="ap-section-title">Beschreibung / Inhalt</div><p>In diesem Arbeitspaket werden die Kosten für die Umsetzung der IT-Infrastruktur ermittelt und dargestellt. Dabei werden sowohl Software- als auch potenzielle Hardwarekosten berücksichtigt.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Technische Umsetzung</div><p>Es wurde eine Kostenaufstellung erstellt, in der die benötigten Komponenten sowie deren ungefähre Preise aufgeführt sind. Die Berechnung erfolgte auf Basis der marktüblichen Richtwerte.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Begründung</div><p>Die Wirtschaftlichkeitsbetrachtung ermöglicht eine Einschätzung der finanziellen Aufwände für die Umsetzung der IT-Infrastruktur. Durch die Gegenüberstellung der Kosten wird deutlich, dass der Einsatz einer virtualisierten Umgebung eine kosteneffizientere Alternative zur physischen Infrastruktur darstellt.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Ergebnis</div><p>Die Kosten wurden erfolgreich ermittelt und zeigen, dass die geplante Infrastruktur wirtschaftlich sinnvoll umgesetzt werden kann.</p></div>
+            <div class="info-box" style="margin-top:10px">Vollständige Kostenplanung in Sektion X2 → Klick auf "X2 Kosten" in der Navigation.</div>
+          </div>
+        </div>
+      
+        <div class="sec-card" id="testcases">
+          <h2>9. Qualitätssicherung und Validierung – Testfälle</h2>
+          <p style="margin-bottom:10px">Alle Testfälle orientieren sich am <strong>ISTQB-Modell</strong>. Alle Komponenten der IT-Infrastruktur wurden erfolgreich getestet und für die finale Abnahmedokumentation freigegeben.</p>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('tc_01_content')" id="btn_tc_01">
+            <span><span class="apn">TC_AP01_NR01</span> Überprüfung der Netzwerkverbindungen zwischen virtuellen Maschinen</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="tc_01_content" class="ap-acc-content">
+            <div class="tc-section"><div class="tc-section-title">Datum</div><p>06.06.2026 – 09:15 Uhr</p></div>
+            <div class="tc-section"><div class="tc-section-title">Ziel des Tests</div><p>Überprüfung, ob die virtuellen Maschinen im internen Netzwerk miteinander kommunizieren können.</p></div>
+            <div class="tc-section"><div class="tc-section-title">Voraussetzung</div><p>Virtuelle Maschinen sind gestartet · Netzwerkkonfiguration ist vorgenommen (Internes Netz) · IP-Adresse des Domain Controllers ist gesetzt</p></div>
+            <div class="tc-section">
+              <div class="tc-section-title">Testschritte</div>
+              <table class="tc-steps">
+                <thead><tr><th>ID</th><th>Nr.</th><th>Schritt</th><th>Erwartetes Ergebnis</th><th>Status</th><th>Kommentar</th></tr></thead>
+                <tbody>
+                  <tr><td>TC_AP01_NR01</td><td>1</td><td>CMD öffnen</td><td>CMD wird geöffnet</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>2</td><td>Befehl ping 10.10.10.10 eingeben</td><td>Befehl wird ausgeführt</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>3</td><td>Ergebnis prüfen</td><td>Antwort vom Domaincontroller ohne Paketverlust</td><td class="step-ok">✓ Passed</td><td>Verbindung stabil</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+      
+       
+      
+          <button class="ap-acc-btn" onclick="toggleAP('tc_02_content')" id="btn_tc_02">
+            <span><span class="apn">TC_AP02_NR01</span> Übersicht der Domain-Installation und DNS-Funktion</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="tc_02_content" class="ap-acc-content">
+            <div class="tc-section"><div class="tc-section-title">Datum</div><p>06.06.2026 – 10:45 Uhr</p></div>
+            <div class="tc-section"><div class="tc-section-title">Ziel des Tests</div><p>Überprüfung, ob der Domain Controller erfolgreich installiert wurde und die Domäne sowie DNS-Namensauflösung funktionieren.</p></div>
+            <div class="tc-section"><div class="tc-section-title">Voraussetzung</div><p>Domaincontroller ist installiert · Server wurde neu gestartet · Anmeldung als Administrator ist möglich</p></div>
+            <div class="tc-section">
+              <div class="tc-section-title">Testschritte</div>
+              <table class="tc-steps">
+                <thead><tr><th>ID</th><th>Nr.</th><th>Schritt</th><th>Erwartetes Ergebnis</th><th>Status</th><th>Kommentar</th></tr></thead>
+                <tbody>
+                  <tr><td>TC_AP02_NR01</td><td>1</td><td>Anmeldung Server</td><td>Anmeldung funktioniert</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>2</td><td>Eingabe echo %USERDOMAIN%</td><td>Domänenname wird angezeigt</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>3</td><td>Eingabe ping dc01.kritsolutions.local</td><td>Name wird aufgelöst</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>4</td><td>Nslookup dc01.kritsolutions.local</td><td>DNS liefert korrekte IP</td><td class="step-ok">✓ Passed</td><td>IP wurde korrekt zurückgegeben</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('tc_03_content')" id="btn_tc_03">
+            <span><span class="apn">TC_AP03_NR01</span> Überprüfung der DNS-Namensauflösung</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="tc_03_content" class="ap-acc-content">
+            <div class="tc-section"><div class="tc-section-title">Datum</div><p>06.06.2026 – 11:55 Uhr</p></div>
+            <div class="tc-section"><div class="tc-section-title">Ziel des Tests</div><p>Überprüfung, ob die Namensauflösung der Domäne korrekt funktioniert.</p></div>
+            <div class="tc-section"><div class="tc-section-title">Voraussetzung</div><p>Domaincontroller ist eingerichtet · DNS-Dienst läuft · Server ist gestartet</p></div>
+            <div class="tc-section">
+              <div class="tc-section-title">Testschritte</div>
+              <table class="tc-steps">
+                <thead><tr><th>ID</th><th>Nr.</th><th>Schritt</th><th>Erwartetes Ergebnis</th><th>Status</th><th>Kommentar</th></tr></thead>
+                <tbody>
+                  <tr><td>TC_AP03_NR01</td><td>1</td><td>CMD öffnen</td><td>CMD startet</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>2</td><td>Eingabe ping dc01.kritsolutions.local</td><td>Name wird aufgelöst</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>3</td><td>Nslookup dc01.kritsolutions.local</td><td>DNS liefert korrekte IP</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>4</td><td>DNS Server prüfen</td><td>Eigener Server wird verwendet</td><td class="step-ok">✓ Passed</td><td>10.10.10.10 angezeigt</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('tc_04_content')" id="btn_tc_04">
+            <span><span class="apn">TC_AP04_NR01</span> Überprüfung der Active Directory OU-Struktur</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="tc_04_content" class="ap-acc-content">
+            <div class="tc-section"><div class="tc-section-title">Datum</div><p>06.06.2026 – 13:10 Uhr</p></div>
+            <div class="tc-section"><div class="tc-section-title">Ziel des Tests</div><p>Überprüfung, ob die erstellte OU-Struktur im Active Directory korrekt angelegt wurde</p></div>
+            <div class="tc-section"><div class="tc-section-title">Voraussetzung</div><p>Domain Controller ist eingerichtet · Active Directory ist verfügbar</p></div>
+            <div class="tc-section">
+              <div class="tc-section-title">Testschritte</div>
+              <table class="tc-steps">
+                <thead><tr><th>ID</th><th>Nr.</th><th>Schritt</th><th>Erwartetes Ergebnis</th><th>Status</th><th>Kommentar</th></tr></thead>
+                <tbody>
+                  <tr><td>TC_AP04_NR01</td><td>1</td><td>AD Users and Computers öffnen</td><td>AD Konsole wird angezeigt</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>2</td><td>OU „Users“ prüfen</td><td>OU vorhanden</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>3</td><td>IT-Struktur prüfen</td><td>Unter-Ous vorhanden</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>4</td><td>Weitere Abteilungen prüfen</td><td>HR, Finance etc. vorhanden</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>5</td><td>OU „Computers“ prüfen</td><td>OU vorhanden</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>6</td><td>OU „Groups“ prüfen</td><td>OU vorhanden</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('tc_05_content')" id="btn_tc_05">
+            <span><span class="apn">TC_AP05_NR01</span> Überprüfung der Benutzererstellung im Active Directory</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="tc_05_content" class="ap-acc-content">
+            <div class="tc-section"><div class="tc-section-title">Datum</div><p>06.06.2026 – 15:30 Uhr</p></div>
+            <div class="tc-section"><div class="tc-section-title">Ziel des Tests</div><p>Überprüfung, ob die Benutzerkonten korrekt im Active Directory erstellt und den Organisationseinheiten zugeordnet wurden.</p></div>
+            <div class="tc-section"><div class="tc-section-title">Voraussetzung</div><p>Active Directory ist eingerichtet · OU-Struktur ist vorhanden</p></div>
+            <div class="tc-section">
+              <div class="tc-section-title">Testschritte</div>
+              <table class="tc-steps">
+                <thead><tr><th>ID</th><th>Nr.</th><th>Schritt</th><th>Erwartetes Ergebnis</th><th>Status</th><th>Kommentar</th></tr></thead>
+                <tbody>
+                  <tr><td>TC_AP05_NR01</td><td>1</td><td>ADUC öffnen</td><td>Konsole wird angezeigt</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>2</td><td>OU „Developers“ prüfen</td><td>User sichtbar</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>3</td><td>Benutzer auswählen</td><td>Eigenschaften sichtbar</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>4</td><td>OU „HR“ prüfen</td><td>User vorhanden</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>5</td><td>OU „Finance“ prüfen</td><td>User vorhanden</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('tc_06_content')" id="btn_tc_06">
+            <span><span class="apn">TC_AP06_NR01</span> Überprüfung der Gruppen im Active Directory</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="tc_06_content" class="ap-acc-content">
+            <div class="tc-section"><div class="tc-section-title">Datum</div><p>06.06.2026 – 16:45 Uhr</p></div>
+            <div class="tc-section"><div class="tc-section-title">Ziel des Tests</div><p>Überprüfung, ob die Gruppen korrekt im Active Directory erstellt wurden und verfügbar sind.</p></div>
+            <div class="tc-section"><div class="tc-section-title">Voraussetzung</div><p>Active Directory ist eingerichtet · OU-Strukturmit „Groups“ ist vorhanden</p></div>
+            <div class="tc-section">
+              <div class="tc-section-title">Testschritte</div>
+              <table class="tc-steps">
+                <thead><tr><th>ID</th><th>Nr.</th><th>Schritt</th><th>Erwartetes Ergebnis</th><th>Status</th><th>Kommentar</th></tr></thead>
+                <tbody>
+                  <tr><td>TC_AP06_NR01</td><td>1</td><td>ADUC öffnen</td><td>Konsole wird angezeigt</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>2</td><td>OU „Groups“ öffnen</td><td>Gruppenübersicht sichtbar</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>3</td><td>Gruppe „GRP_DEV_RW“</td><td>Gruppe vorhanden</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>4</td><td>Gruppe „GRP_HR_RW“</td><td>Gruppe vorhanden</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>5</td><td>Gruppentyp überprüfen</td><td>Sicherheitsgruppe</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('tc_07_content')" id="btn_tc_07">
+            <span><span class="apn">TC_AP07_NR01</span> Überprüfung der Gruppenzuordnung im Active Directory</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="tc_07_content" class="ap-acc-content">
+            <div class="tc-section"><div class="tc-section-title">Datum</div><p>06.06.2026 – 18:00 Uhr</p></div>
+            <div class="tc-section"><div class="tc-section-title">Ziel des Tests</div><p>Überprüfung, ob die Benutzerkonten korrekt den jeweiligen Gruppen zugeordnet wurden.</p></div>
+            <div class="tc-section"><div class="tc-section-title">Voraussetzung</div><p>Benutzerkonten sind erstellt · Gruppen sind vorhanden</p></div>
+            <div class="tc-section">
+              <div class="tc-section-title">Testschritte</div>
+              <table class="tc-steps">
+                <thead><tr><th>ID</th><th>Nr.</th><th>Schritt</th><th>Erwartetes Ergebnis</th><th>Status</th><th>Kommentar</th></tr></thead>
+                <tbody>
+                  <tr><td>TC_AP07_NR01</td><td>1</td><td>ADUC öffnen</td><td>Konsole wird angezeigt</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>2</td><td>Benutzer „max.dev“ öffnen</td><td>Eigenschaften sichtbar</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>3</td><td>„Member of“ prüfen</td><td>Gruppe „GRP_DEV_RW“ vorhanden</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>4</td><td>HR Benutzer prüfen</td><td>HR Gruppe zugeordnet</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>5</td><td>Tester prüfen</td><td>Tester Gruppe vorhanden</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('tc_08_content')" id="btn_tc_08">
+            <span><span class="apn">TC_AP08_NR01</span> Überprüfung der Objekterstellung per Powershell</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="tc_08_content" class="ap-acc-content">
+            <div class="tc-section"><div class="tc-section-title">Datum</div><p>06.06.2026 – 19:15 Uhr</p></div>
+            <div class="tc-section"><div class="tc-section-title">Ziel des Tests</div><p>Überprüfung, ob die Benutzerkonten- und Gruppenobjekte erfolgreich mittels PowerShell erstellt wurden.</p></div>
+            <div class="tc-section"><div class="tc-section-title">Voraussetzung</div><p>Active Directory ist eingerichtet · Powershell mit Adminrechten verfügbar</p></div>
+            <div class="tc-section">
+              <div class="tc-section-title">Testschritte</div>
+              <table class="tc-steps">
+                <thead><tr><th>ID</th><th>Nr.</th><th>Schritt</th><th>Erwartetes Ergebnis</th><th>Status</th><th>Kommentar</th></tr></thead>
+                <tbody>
+                  <tr><td>TC_AP08_NR01</td><td>1</td><td>Powershell öffnen</td><td>Konsole wird angezeigt</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>2</td><td>Gruppe erstellen</td><td>Gruppe wird angelegt</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>3</td><td>Benutzer erstellen</td><td>Benutzer wird angelegt</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>4</td><td>AD prüfen</td><td>Objekte sichtbar</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>5</td><td>Transcript prüfen</td><td>Log-Datei vorhanden</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('tc_09_content')" id="btn_tc_09">
+            <span><span class="apn">TC_AP09_NR01</span> Überprüfung des Fileservers und der Ordnerstruktur</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="tc_09_content" class="ap-acc-content">
+            <div class="tc-section"><div class="tc-section-title">Datum</div><p>07.06.2026 – 09:30 Uhr</p></div>
+            <div class="tc-section"><div class="tc-section-title">Ziel des Tests</div><p>Überprüfung, ob der Fileserver korrekt eingerichtet, in die Domäne integriert und die Ordnerstruktur erstellt wurde.</p></div>
+            <div class="tc-section"><div class="tc-section-title">Voraussetzung</div><p>Domain Controller ist verfügbar · FS01 ist gestartet</p></div>
+            <div class="tc-section">
+              <div class="tc-section-title">Testschritte</div>
+              <table class="tc-steps">
+                <thead><tr><th>ID</th><th>Nr.</th><th>Schritt</th><th>Erwartetes Ergebnis</th><th>Status</th><th>Kommentar</th></tr></thead>
+                <tbody>
+                  <tr><td>TC_AP09_NR01</td><td>1</td><td>Anmeldung an FS01</td><td>Anmeldung möglich</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>2</td><td>Domänenmitgliedschaft prüfen</td><td>Server ist Teil der Domäne</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>3</td><td>Ordner „Shares“ prüfen</td><td>Ordner vorhanden</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>4</td><td>Unterordner prüfen</td><td>Abteilungen vorhanden</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>5</td><td>Explorer Zugriff prüfen</td><td>Ordner zugreifbar</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('tc_10_content')" id="btn_tc_10">
+            <span><span class="apn">TC_AP10_NR01</span> Überprüfung der Netzwerkfreigaben</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="tc_10_content" class="ap-acc-content">
+            <div class="tc-section"><div class="tc-section-title">Datum</div><p>07.06.2026 – 10:45 Uhr</p></div>
+            <div class="tc-section"><div class="tc-section-title">Ziel des Tests</div><p>Überprüfung, ob die erstellten Netzwerkfreigaben im Netzwerk sichtbar und erreichbar sind.</p></div>
+            <div class="tc-section"><div class="tc-section-title">Voraussetzung</div><p>Fileserver ist eingerichtet · Ordnerstruktur ist vorhanden</p></div>
+            <div class="tc-section">
+              <div class="tc-section-title">Testschritte</div>
+              <table class="tc-steps">
+                <thead><tr><th>ID</th><th>Nr.</th><th>Schritt</th><th>Erwartetes Ergebnis</th><th>Status</th><th>Kommentar</th></tr></thead>
+                <tbody>
+                  <tr><td>TC_AP10_NR01</td><td>1</td><td>Explorer öffnen</td><td>Explorer startet</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>2</td><td>FS01 eingeben</td><td>Freigaben werden angezeigt</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>3</td><td>IT-Shares öffnen</td><td>Zugriff möglich</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>4</td><td>HR-Shares öffnen</td><td>Zugriff möglich</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('tc_11_content')" id="btn_tc_11">
+            <span><span class="apn">TC_AP11_NR01</span> Überprüfung des Berechtigungskonzepts</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="tc_11_content" class="ap-acc-content">
+            <div class="tc-section"><div class="tc-section-title">Datum</div><p>07.06.2026 – 12:00 Uhr</p></div>
+            <div class="tc-section"><div class="tc-section-title">Ziel des Tests</div><p>Überprüfung, ob Benutzer entsprechend ihrer Gruppenberechtigungen auf Netzwerkfreigaben zugreifen können bzw. keinen Zugriff haben.</p></div>
+            <div class="tc-section"><div class="tc-section-title">Voraussetzung</div><p>Fileserver ist eingerichtet · Gruppen sind zugeordnet · Shares existieren</p></div>
+            <div class="tc-section">
+              <div class="tc-section-title">Testschritte</div>
+              <table class="tc-steps">
+                <thead><tr><th>ID</th><th>Nr.</th><th>Schritt</th><th>Erwartetes Ergebnis</th><th>Status</th><th>Kommentar</th></tr></thead>
+                <tbody>
+                  <tr><td>TC_AP11_NR01</td><td>1</td><td>Client mit Benutzer max.dev anmelden</td><td>Anmeldung erfolgreich</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>2</td><td>Zugriff auf IT Shares</td><td>Zugriff erlaubt</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>3</td><td>Zugriff auf HR Shares</td><td>Zugriff verweigert</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>4</td><td>HR-Benutzer testen</td><td>Zugriff auf HR erlaubt</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>5</td><td>HR Benutzer auf IT prüfen</td><td>Zugriff verweigert</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('tc_12_content')" id="btn_tc_12">
+            <span><span class="apn">TC_AP12_NR01</span> Überprüfung der Home-Laufwerke</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="tc_12_content" class="ap-acc-content">
+            <div class="tc-section"><div class="tc-section-title">Datum</div><p>07.06.2026 – 13:15 Uhr</p></div>
+            <div class="tc-section"><div class="tc-section-title">Ziel des Tests</div><p>Überprüfung, ob Benutzer ein persönliches Laufwerk erhalten und nur auf ihren eigenen Speicher zugreifen können.</p></div>
+            <div class="tc-section"><div class="tc-section-title">Voraussetzung</div><p>Fileserver ist eingerichtet · Benutzerkonten sind vorhanden · Home-Funktion ist konfiguriert</p></div>
+            <div class="tc-section">
+              <div class="tc-section-title">Testschritte</div>
+              <table class="tc-steps">
+                <thead><tr><th>ID</th><th>Nr.</th><th>Schritt</th><th>Erwartetes Ergebnis</th><th>Status</th><th>Kommentar</th></tr></thead>
+                <tbody>
+                  <tr><td>TC_AP12_NR01</td><td>1</td><td>Anmeldung als Benutzer</td><td>Login erfolgreich</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>2</td><td>Laufwerk prüfen</td><td>Laufwerk H: vorhanden</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>3</td><td>Zugriff auf eigenen Ordner</td><td>Zugriff möglich</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>4</td><td>Zugriff auf fremden Ordner</td><td>Zugriff verweigert</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('tc_13_content')" id="btn_tc_13">
+            <span><span class="apn">TC_AP13_NR01</span> Überprüfung der Speicherbegrenzung</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="tc_13_content" class="ap-acc-content">
+            <div class="tc-section"><div class="tc-section-title">Datum</div><p>07.06.2026 – 14:30 Uhr</p></div>
+            <div class="tc-section"><div class="tc-section-title">Ziel des Tests</div><p>Überprüfung, ob die definierte Speicherbegrenzung für Benutzer korrekt angewendet wird.</p></div>
+            <div class="tc-section"><div class="tc-section-title">Voraussetzung</div><p>Fileserver ist eingerichtet · Home-Laufwerke vorhanden · FSRM konfiguriert</p></div>
+            <div class="tc-section">
+              <div class="tc-section-title">Testschritte</div>
+              <table class="tc-steps">
+                <thead><tr><th>ID</th><th>Nr.</th><th>Schritt</th><th>Erwartetes Ergebnis</th><th>Status</th><th>Kommentar</th></tr></thead>
+                <tbody>
+                  <tr><td>TC_AP13_NR01</td><td>1</td><td>Benutzer anmelden</td><td>Anmeldung erfolgreich</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>2</td><td>Datei speichern</td><td>Datei wird gespeichert</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>3</td><td>Speichergrenze erreichen (>1GB)</td><td>Speicherung wird blockiert</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>4</td><td>Fehlermeldung prüfen</td><td>Hinweis zur Speichergrenze</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('tc_14_content')" id="btn_tc_14">
+            <span><span class="apn">TC_AP14_NR01</span> Überprüfung der Dateityp-Einschränkung</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="tc_14_content" class="ap-acc-content">
+            <div class="tc-section"><div class="tc-section-title">Datum</div><p>07.06.2026 – 15:15 Uhr</p></div>
+            <div class="tc-section"><div class="tc-section-title">Ziel des Tests</div><p>Überprüfung, ob definierte Dateitypen auf dem Fileserver blockiert werden</p></div>
+            <div class="tc-section"><div class="tc-section-title">Voraussetzung</div><p>Fileserver ist eingerichtet · FSRM aktiv · File Screening konfiguriert</p></div>
+            <div class="tc-section">
+              <div class="tc-section-title">Testschritte</div>
+              <table class="tc-steps">
+                <thead><tr><th>ID</th><th>Nr.</th><th>Schritt</th><th>Erwartetes Ergebnis</th><th>Status</th><th>Kommentar</th></tr></thead>
+                <tbody>
+                  <tr><td>TC_AP14_NR01</td><td>1</td><td>Benutzer anmelden</td><td>Anmeldung erfolgreich</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>2</td><td>Datei (mp3) kopieren</td><td>Vorgang wird blockiert</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>3</td><td>Fehlermeldung prüfen</td><td>Hinweis erscheint</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>4</td><td>Erlaubte Datei speichern</td><td>Speicherung erlaubt</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('tc_15_content')" id="btn_tc_15">
+            <span><span class="apn">TC_AP15_NR01</span> Überprüfung der Netzwerkverbindung im Packet Tracer</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="tc_15_content" class="ap-acc-content">
+            <div class="tc-section"><div class="tc-section-title">Datum</div><p>07.06.2026 – 16:30 Uhr</p></div>
+            <div class="tc-section"><div class="tc-section-title">Ziel des Tests</div><p>Überprüfung, ob die eingerichteten Netzwerkverbindungen im Modell korrekt funktionieren.</p></div>
+            <div class="tc-section"><div class="tc-section-title">Voraussetzung</div><p>Netzwerk wurde im Packet Tracer erstellt · Geräte sind verbunden</p></div>
+            <div class="tc-section">
+              <div class="tc-section-title">Testschritte</div>
+              <table class="tc-steps">
+                <thead><tr><th>ID</th><th>Nr.</th><th>Schritt</th><th>Erwartetes Ergebnis</th><th>Status</th><th>Kommentar</th></tr></thead>
+                <tbody>
+                  <tr><td>TC_AP15_NR01</td><td>1</td><td>Netzwerk öffnen</td><td>Topologie sichtbar</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>2</td><td>Verbindung prüfen</td><td>Alle Geräte verbunden</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>3</td><td>Ping ausführen</td><td>Kommunikation möglich</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>4</td><td>Simulation prüfen</td><td>Pakete erreichen Ziel</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('tc_16_content')" id="btn_tc_16">
+            <span><span class="apn">TC_AP16_NR01</span> Überprüfung der VPN-Verbindung</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="tc_16_content" class="ap-acc-content">
+            <div class="tc-section"><div class="tc-section-title">Datum</div><p>07.06.2026 – 18:00 Uhr</p></div>
+            <div class="tc-section"><div class="tc-section-title">Ziel des Tests</div><p>Überprüfung, ob ein externer Client erfolgreich eine Verbindung zum internen Netzwerk herstellen kann.</p></div>
+            <div class="tc-section"><div class="tc-section-title">Voraussetzung</div><p>VPN ist konfiguriert · Externer Client vorhanden · Zugangsdaten vorhanden</p></div>
+            <div class="tc-section">
+              <div class="tc-section-title">Testschritte</div>
+              <table class="tc-steps">
+                <thead><tr><th>ID</th><th>Nr.</th><th>Schritt</th><th>Erwartetes Ergebnis</th><th>Status</th><th>Kommentar</th></tr></thead>
+                <tbody>
+                  <tr><td>TC_AP16_NR01</td><td>1</td><td>VPN starten</td><td>Verbindung wird aufgebaut</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>2</td><td>Login durchführen</td><td>Verbindung erfolgreich</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>3</td><td>Netzwerkzugriff testen</td><td>Zugriff möglich</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>4</td><td>Ping FS01</td><td>Antwort vom Server</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>5</td><td>Shares prüfen</td><td>Zugriff auf Freigaben</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('tc_17_content')" id="btn_tc_17">
+            <span><span class="apn">TC_AP17_NR01</span> Überprüfung der Logging Funktion</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="tc_17_content" class="ap-acc-content">
+            <div class="tc-section"><div class="tc-section-title">Datum</div><p>07.06.2026 – 19:15 Uhr</p></div>
+            <div class="tc-section"><div class="tc-section-title">Ziel des Tests</div><p>Überprüfung, ob sicherheitsrelevante Ereignisse korrekt im System protokolliert werden.</p></div>
+            <div class="tc-section"><div class="tc-section-title">Voraussetzung</div><p>Logging aktiviert · GPO angewendet · Event Viewer verfügbar</p></div>
+            <div class="tc-section">
+              <div class="tc-section-title">Testschritte</div>
+              <table class="tc-steps">
+                <thead><tr><th>ID</th><th>Nr.</th><th>Schritt</th><th>Erwartetes Ergebnis</th><th>Status</th><th>Kommentar</th></tr></thead>
+                <tbody>
+                  <tr><td>TC_AP17_NR01</td><td>1</td><td>Falsche Anmeldung durchführen</td><td>Fehler wird erzeugt</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>2</td><td>Event Viewer öffnen</td><td>Ereignisse sichtbar</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>3</td><td>Security Log prüfen</td><td>Eintrag vorhanden</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>4</td><td>Zugriff auf Datei testen</td><td>Zugriff wird geloggt</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+      
+          <button class="ap-acc-btn" onclick="toggleAP('tc_18_content')" id="btn_tc_18">
+            <span><span class="apn">TC_AP18_NR01</span> Überprüfung der Gruppenrichtlinien</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div id="tc_18_content" class="ap-acc-content">
+            <div class="tc-section"><div class="tc-section-title">Datum</div><p>07.06.2026 – 20:30 Uhr</p></div>
+            <div class="tc-section"><div class="tc-section-title">Ziel des Tests</div><p>Überprüfung, ob die definierten Gruppenrichtlinien korrekt angewendet wurden.</p></div>
+            <div class="tc-section"><div class="tc-section-title">Voraussetzung</div><p>GPO erstellt · GPO verlinkt · Benutzer vorhanden</p></div>
+            <div class="tc-section">
+              <div class="tc-section-title">Testschritte</div>
+              <table class="tc-steps">
+                <thead><tr><th>ID</th><th>Nr.</th><th>Schritt</th><th>Erwartetes Ergebnis</th><th>Status</th><th>Kommentar</th></tr></thead>
+                <tbody>
+                  <tr><td>TC_AP18_NR01</td><td>1</td><td>GPO erstellen</td><td>GPO vorhanden</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>2</td><td>GPO anwenden</td><td>Richtlinie verknüpft</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>3</td><td>Benutzer-Regel testen</td><td>Einschränkung greift</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                  <tr><td></td><td>4</td><td>Passwortregel testen</td><td>Schwaches Passwort blockiert</td><td class="step-ok">✓ Passed</td><td></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      
+        <div class="sec-card" id="tom">
+            <h2>10. TOM – Technische und Organisatorische Maßnahmen (DSGVO)</h2>
+            <p>Gemäß Art. 32 DSGVO wurden für die IT-Infrastruktur der KritSolutions angemessene technische und organisatorische Maßnahmen (TOM) definiert und umgesetzt, um ein dem Risiko angemessenes Schutzniveau für personenbezogene Unternehmens- und Mitarbeiterdaten zu gewährleisten.</p>
+            
+            <h3>10.1 Übersicht der Kernmaßnahmen</h3>
+            <div class="tbl-wrap">
+              <table>
+                <thead><tr><th>Maßnahme</th><th>Technische Umsetzung</th><th>Schutzwirkung</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>Zugriffskontrolle</strong></td><td>Active Directory + AGDLP-Berechtigungskonzept</td><td>Nur berechtigte Benutzer greifen auf Daten zu</td></tr>
+                  <tr><td><strong>Authentifizierung</strong></td><td>Domänen-Login, Passwortrichtlinie (GPO), MFA (M365)</td><td>Schutz vor unbefugtem Zugriff</td></tr>
+                  <tr><td><strong>Netzwerksicherheit</strong></td><td>IPFire Firewall (Lab) / FortiGate (Produktion), VLAN-Segmentierung</td><td>Trennung von Netzbereichen, Schutz vor Lateral Movement</td></tr>
+                  <tr><td><strong>VPN-Verschlüsselung</strong></td><td>OpenVPN / SSL-VPN mit AES-256-Verschlüsselung</td><td>Sicherer Homeoffice-Zugriff über öffentliche Netze</td></tr>
+                  <tr><td><strong>Protokollierung</strong></td><td>Audit Policies via GPO, Event Viewer Security Log</td><td>Nachvollziehbarkeit von Aktivitäten</td></tr>
+                  <tr><td><strong>Speicherbegrenzung</strong></td><td>FSRM Quota 1 GB auf Home-Laufwerke</td><td>Ressourcenkontrolle</td></tr>
+                  <tr><td><strong>Dateityp-Beschränkung</strong></td><td>FSRM File Screening (Musikdateien blockiert)</td><td>Schutz vor Datenmissbrauch / Kapazitätsschutz</td></tr>
+                  <tr><td><strong>Backup (3-2-1-Regel)</strong></td><td>Primärdaten FS01 → lokales Backup → Offsite-Backup</td><td>Datenverfügbarkeit bei Ausfall</td></tr>
+                  <tr><td><strong>Endgeräte-Sicherheit</strong></td><td>BitLocker (Verschlüsselung), Intune MDM (Produktion)</td><td>Schutz bei Diebstahl/Verlust</td></tr>
+                  <tr><td><strong>Onboarding/Offboarding</strong></td><td>AD-Konto anlegen/sperren, Gruppen zuweisen/entfernen, Laptop vorbereiten/zurücknehmen</td><td>Geordnetes Zugriffsmanagement</td></tr>
+                </tbody>
+              </table>
+            </div>
+        
+            <h3 style="margin-top: 24px;">10.2 Detailliertes TOM-Dokumentkatalog</h3>
+            <p>Die folgenden Kontrollmechanismen werden im Rahmen des IT-Betriebs durch die Administratoren kontinuierlich angewendet, dokumentiert und überprüft:</p>
+        
+            <div class="two-col" style="margin-top: 16px;">
+              <div>
+                <h4>1. Zutrittskontrolle (Physisch)</h4>
+                <p style="font-size: 11px; color: var(--muted); margin-top: -6px;">Verhinderung unbefugten physischen Zutritts zu Datenverarbeitungsanlagen.</p>
+                <ul class="check">
+                  <li>Abschließbarer 19"-Serverschrank (Schlüsselverwaltung im IT-Büro dokumentiert)</li>
+                  <li>Persönliche, Pincode-gesicherte Schließfächer (CP-Schränke) für alle Desksharing-Mitarbeiter</li>
+                  <li>Zutritt zum Bürogebäude ist durch ein elektronisches Schließsystem mit personalisierten Badges gesichert</li>
+                </ul>
+        
+                <h4>2. Zugangskontrolle (System)</h4>
+                <p style="font-size: 11px; color: var(--muted); margin-top: -6px;">Verhinderung unbefugter Nutzung der IT-Systeme.</p>
+                <ul class="check">
+                  <li>Zentrale und eindeutige Benutzer-Authentifizierung über Active Directory (keine geteilten Accounts)</li>
+                  <li>Strenge Passwortrichtlinie via GPO (min. 10 Zeichen, Komplexität erforderlich, Wechsel alle 90 Tage)</li>
+                  <li>Automatische Bildschirmsperre via GPO nach 5 Minuten Inaktivität (Clear-Desk & Clear-Screen Policy)</li>
+                  <li>VPN-Zugang nur für autorisierte Homeoffice-Nutzer mit zertifikatsbasierter Authentifizierung</li>
+                </ul>
+        
+                <h4>3. Zugriffskontrolle (Daten)</h4>
+                <p style="font-size: 11px; color: var(--muted); margin-top: -6px;">Sicherstellung, dass Berechtigte nur auf freigegebene Daten zugreifen können.</p>
+                <ul class="check">
+                  <li>Strikte Umsetzung des AGDLP-Prinzips (Keine direkten Benutzerberechtigungen auf Dateiebene)</li>
+                  <li>Vergabe von Berechtigungen streng nach dem Need-to-Know-Prinzip (Minimalprinzip)</li>
+                  <li>Isolierung hochsensibler Daten (z.B. der Ordner <code>\\FS01\HR</code> ist für IT-Administratoren nicht inhaltlich einsehbar)</li>
+                </ul>
+              </div>
+              
+              <div>
+                <h4>4. Trennungskontrolle</h4>
+                <p style="font-size: 11px; color: var(--muted); margin-top: -6px;">Getrennte Verarbeitung von Daten, die zu unterschiedlichen Zwecken erhoben wurden.</p>
+                <ul class="check">
+                  <li>Logische Netzwerktrennung durch Subnetze/VLANs (Trennung von Client-, Server- und VPN-Netz)</li>
+                  <li>Strikte Trennung der Abteilungsdaten auf dem Fileserver durch dedizierte Shares</li>
+                  <li>Trennung von Home-Laufwerken (<code>Home$</code>) – administrative Einsicht nur nach dem Vier-Augen-Prinzip</li>
+                </ul>
+        
+                <h4>5. Weitergabe- und Eingabekontrolle</h4>
+                <p style="font-size: 11px; color: var(--muted); margin-top: -6px;">Nachvollziehbarkeit und sichere Übertragung von Daten.</p>
+                <ul class="check">
+                  <li>Verschlüsselte Datenübertragung bei jeglichem Remote-Zugriff (VPN-Tunnel mit AES-256 Verschlüsselung)</li>
+                  <li>Aktiviertes Audit-Logging via GPO: Protokollierung von Anmeldefehlern (Event ID 4625) und unerlaubten Dateizugriffsversuchen im Event Viewer</li>
+                  <li>Verhinderung von Datenabfluss und Kapazitätsüberlastung durch FSRM (File Screening und Quotas)</li>
+                </ul>
+        
+                <h4>6. Verfügbarkeitskontrolle & Belastbarkeit</h4>
+                <p style="font-size: 11px; color: var(--muted); margin-top: -6px;">Schutz gegen zufällige Zerstörung oder Verlust.</p>
+                <ul class="check">
+                  <li>USV-Anlage (Unterbrechungsfreie Stromversorgung) zum Überbrücken von Spannungsschwankungen und für sauberes Herunterfahren der Server</li>
+                  <li>Geplantes Backup-Konzept (Produktionsumgebung) nach der 3-2-1-Regel (3 Kopien, 2 Medien, 1 Offsite/Cloud)</li>
+                  <li>Nutzung von ECC-RAM und redundanten Festplattenverbünden (Hardware-RAID) in der primären Server-Hardware</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+      
+        <div class="sec-card">
+          <h2>11. Fazit</h2>
+          <p>Im Rahmen dieses Projekts wurde eine vollständige IT-Infrastruktur zur Verwaltung von Benutzern, Ressourcen und Zugriffsrechten aufgebaut. Die Umsetzung erfolgte strukturiert in einzelnen Arbeitspaketen, wodurch eine klare Trennung der verschiedenen Projektphasen gewährleistet wurde. Dabei wurden sowohl grundlegende Komponenten wie Active Directory, DNS und Fileserver als auch weiterführende Funktionen wie VPN-Zugriff, Speicherbegrenzung und Dateityp Einschränkung implementiert.</p>
+          <p>Besonderer Fokus lag auf der Anwendung praxisnaher Konzepte wie dem AGDLP-Prinzip zur strukturierten Berechtigungsverwaltung sowie deren Nutzung von Gruppenrichtlinien zur zentralen Steuerung der Systemkonfigurationen.</p>
+          <p>Die Qualitätssicherung erfolgte durch die Definition und Durchführung strukturierter Testfälle, welche sich an den Prinzipien des ISTQB orientieren. Dadurch konnte sichergestellt werden, dass alle Komponenten der IT-Infrastruktur fehlerfrei funktionieren und den definierten Anforderungen entsprechen. Zusätzlich wurde durch die Wirtschaftlichkeitsbetrachtung aufgezeigt, dass die Umsetzung der Infrastruktur unter Berücksichtigung moderner Virtualisierungstechnologien effizient und kostengünstig realisiert werden kann.</p>
+          <div class="why-box">Insgesamt konnte gezeigt werden, dass die geplante IT-Infrastruktur erfolgreich umgesetzt werden kann und alle Anforderungen erfüllt. Die aufgebaute Umgebung stellt eine realistische und praxisnahe Lösung dar, welche sich an gängigen Standards in Unternehmensnetzwerken orientiert.</div>
+        </div>
+      </div>
+
+<!-- =========================================================
+     X2 – KOSTENPLANUNG  (aktualisiert)
+     ========================================================= -->
+     <div id="x2" class="main-section">
+        <div class="cover-banner">
+          <h1>X2 – Kostenplanung</h1>
+          <div class="sub">Reale Unternehmensarchitektur · CANCOM Austria AG · Rohit Kumar · 22. Mai 2026</div>
+          <div class="cover-meta">
+            <div><span>Angebotsnummer</span>IT-2024-0847</div>
+            <div><span>Status</span>Festpreis / Vertraulich</div>
+            <div><span>Gültig bis</span>30.09.2026</div>
+            <div><span>Mitarbeiter</span>22 User · 16 Desksharing-Plätze</div>
+          </div>
+        </div>
+        <div class="info-box">Diese Kostenplanung gilt für die reale Produktionsumgebung (nicht die Lab-Umgebung). Alle Preise netto, zzgl. 20% MwSt. Preisstand Mai 2026.</div>
+      
+        <div class="kpi-grid">
+          <div class="kpi-card"><div class="k-label">CAPEX Gesamt</div><div class="k-value">€ 115.358</div><div class="k-desc">Einmalinvestition (Netto)</div></div>
+          <div class="kpi-card"><div class="k-label">OPEX / Monat</div><div class="k-value">€ 1.665</div><div class="k-desc">Laufende Kosten (Netto)</div></div>
+          <div class="kpi-card"><div class="k-label">Prof. Services</div><div class="k-value">€ 18.400</div><div class="k-desc">Deployment &amp; Integration</div></div>
+          <div class="kpi-card"><div class="k-label">TCO 3 Jahre</div><div class="k-value">€ 243.948</div><div class="k-desc">inkl. Hidden Costs</div></div>
+          <div class="kpi-card"><div class="k-label">TCO 5 Jahre</div><div class="k-value">€ 352.118</div><div class="k-desc">inkl. Hardware-Refresh</div></div>
+          <div class="kpi-card"><div class="k-label">M365 / User / Monat</div><div class="k-value">€ 22,00</div><div class="k-desc">Business Premium Lizenz</div></div>
+        </div>
+      
+        <div class="sec-card">
+          <h2>CAPEX – Einmalinvestitionskosten</h2>
+          <h3>1. Endgeräte (22 User-Laptops)</h3>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Produkt</th><th class="r">Menge</th><th class="r">EP (Netto)</th><th class="r">GP (Netto)</th><th>Begründung</th><th>Preisquelle</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>Lenovo ThinkPad E14 G7 Intel (21U2002PGE)</strong><small class="sub">Core Ultra 7 258V · 32 GB DDR5 · 1 TB NVMe SSD · Win 11 Pro · 14" 2.8K IPS · Thunderbolt 4</small></td>
+                <td class="r">22</td><td class="r">€ 1.314</td><td class="r"><strong>€ 28.908</strong></td>
+                <td>Einheitliches Business-Laptop für alle 22 Mitarbeiter. Core Ultra 7 258V (Lunar Lake) mit integrierter Arc Graphics 140V deckt Entwicklung, Office und Video-Calls gleichermaßen ab. 32 GB DDR5 ohne Kompromiss für alle Nutzerrollen. 2.8K IPS-Display (2880×1800) für produktives Arbeiten. TPM 2.0, Fingerprint-Reader und IR-Kamera für Windows Hello. Thunderbolt 4 für Single-Cable-Docking. 3 Jahre Premier Support.</td>
+                <td><a href="https://geizhals.at/lenovo-thinkpad-e14-g7-intel-21u2002pge-a3552190.html" target="_blank" class="src-link">→ geizhals.at</a></td>
+              </tr>
+              <tr>
+                <td><strong>Lenovo ThinkPad USB-C Dock (40A90090EU)</strong><small class="sub">USB-C · 2× DisplayPort · HDMI · 3× USB-A · 1× USB-C · GbE · 90W Power Delivery</small></td>
+                <td class="r">16</td><td class="r">€ 319</td><td class="r"><strong>€ 5.104</strong></td>
+                <td>1 Dock je physischem Desksharing-Platz. Ein einziges USB-C-Kabel verbindet Laptop mit Dual-Monitor, LAN, Peripherie und Stromversorgung (90W PD). Breite Kompatibilität mit allen ThinkPad-Modellen. Desksharing-tauglich: Nächster Nutzer steckt einfach ein.</td>
+                <td><a href="https://geizhals.at/lenovo-thinkpad-usb-c-dock-40a90090eu-40a90090us-a1606175.html" target="_blank" class="src-link">→ geizhals.at</a></td>
+              </tr>
+              <tr>
+                <td><strong>AOC 24E3QAF 24" FHD Monitor</strong><small class="sub">1920×1080 · IPS · 75 Hz · Flimmerfrei · HDMI · DisplayPort · VGA · Lautsprecher · höhenverstellbar</small></td>
+                <td class="r">32</td><td class="r">€ 122</td><td class="r"><strong>€ 3.904</strong></td>
+                <td>Dual-Monitor-Setup: 2 Stück je Desksharing-Platz. IPS-Panel mit 75 Hz für flüssige Darstellung. Flimmerfreie Hintergrundbeleuchtung, höhenverstellbar und neigbar für ergonomischen Einsatz. Integrierte Lautsprecher als Fallback. Gutes Preis-Leistungs-Verhältnis für Standard-Büroarbeit.</td>
+                <td><a href="https://geizhals.at/aoc-24e3qaf-a2995253.html" target="_blank" class="src-link">→ geizhals.at</a></td>
+              </tr>
+              <tr>
+                <td><strong>Logitech MX Keys Combo for Business Gen 2 (920-010926)</strong><small class="sub">MX Keys Advanced Tastatur + MX Master 3S Maus · Bluetooth + Logi Bolt USB-Empfänger · DE-Layout</small></td>
+                <td class="r">16</td><td class="r">€ 145</td><td class="r"><strong>€ 2.320</strong></td>
+                <td>1 Set je Desksharing-Platz. Easy-Switch-Taste für schnellen Wechsel zwischen bis zu 3 Geräten – ideal im Desksharing. Flüsterleise Tasten, adaptive Hintergrundbeleuchtung, ergonomische Maus mit Präzisions-Scroll. Langlebiger Akku (bis zu 10 Tage Tastatur, 70 Tage Maus).</td>
+                <td><a href="https://geizhals.at/logitech-mx-keys-combo-for-business-gen-2-920-010926-a2826021.html" target="_blank" class="src-link">→ geizhals.at</a></td>
+              </tr>
+              <tr>
+                <td><strong>Jabra Evolve2 55 USB-C MS Stereo inkl. Ladestation (25599-999-889)</strong><small class="sub">ANC · Bluetooth 5.0 · USB-C · Microsoft Teams zertifiziert · inkl. Ladestation · Busylight</small></td>
+                <td class="r">22</td><td class="r">€ 158</td><td class="r"><strong>€ 3.476</strong></td>
+                <td>Je Mitarbeiter fest zugeordnet (kein Teilen – auch für Homeoffice). Offiziell Microsoft Teams zertifiziert mit dedizierter Teams-Taste. Advanced ANC blendet Großraumbüro-Geräusche aus. Ladestation für ordentliche Aufbewahrung am Schreibtisch. Busylight signalisiert Kollegen den aktiven Anruf. 2 Jahre Garantie.</td>
+                <td><a href="https://geizhals.at/jabra-evolve2-55-usb-c-ms-stereo-inkl-ladestation-25599-999-889-a2938321.html" target="_blank" class="src-link">→ geizhals.at</a></td>
+              </tr>
+            </tbody>
+          </table></div>
+      
+          <h3>2. Meetingraum-Technik (2 Räume vollständig ausgestattet)</h3>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Produkt</th><th class="r">Menge</th><th class="r">EP</th><th class="r">GP</th><th>Begründung &amp; Funktion</th><th>Preisquelle</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>Poly Studio R30 (2200-69390-101)</strong><small class="sub">4K-Kamera · 120° Sichtfeld · DirectorAI · Noiseblock AI · USB-C/A · Plug &amp; Play · Teams &amp; Zoom zertifiziert</small></td>
+                <td class="r">2</td><td class="r">€ 376</td><td class="r"><strong>€ 752</strong></td>
+                <td>Kompakte USB-Videobar für kleine bis mittlere Meetingräume. DirectorAI-Kamera mit 120° Weitwinkel erfasst alle Teilnehmer automatisch. NoiseblockAI filtert Hintergrundgeräusche zuverlässig heraus. Plug &amp; Play per USB an ThinkSmart Core – keine Treiber. Zertifiziert für Microsoft Teams und Zoom.</td>
+                <td><a href="https://geizhals.at/poly-studio-r30-2200-69390-101-a2888310.html" target="_blank" class="src-link">→ geizhals.at</a></td>
+              </tr>
+              <tr>
+                <td><strong>Yealink MeetingDisplay MD75 (1203691)</strong><small class="sub">75" 4K UHD IPS · 3× HDMI 2.1 · Wi-Fi 6 (802.11ax) · Bluetooth 5.1 · Android · 12W Stereo · AirPlay &amp; Miracast</small></td>
+                <td class="r">2</td><td class="r">€ 1.494</td><td class="r"><strong>€ 2.988</strong></td>
+                <td>Professionelles 75" MTR-Display, speziell für Microsoft Teams Rooms entwickelt. Nahtlose Integration mit Yealink MTR-Systemen: automatische Ein-/Ausschaltsynchronisierung, intelligente Quellumschaltung. 4K UHD IPS für gestochen scharfe Darstellung. Wi-Fi 6 und AirPlay/Miracast für kabellose Präsentationen. Digitaler Beschilderungs-Modus außerhalb der Meetings.</td>
+                <td><a href="https://geizhals.at/yealink-meetingdisplay-md75-1203691-a3685052.html" target="_blank" class="src-link">→ geizhals.at</a></td>
+              </tr>
+              <tr>
+                <td><strong>Lenovo ThinkSmart Core Gen2 (12WE000TGE)</strong><small class="sub">Core Ultra 5 135H · 16 GB DDR5 · 256 GB SSD · Win 11 IoT Enterprise · Microsoft Teams Rooms · NPU</small></td>
+                <td class="r">2</td><td class="r">€ 3.279</td><td class="r"><strong>€ 6.558</strong></td>
+                <td>Nächste Generation des MTR-Compute-Moduls – KI-optimiert mit integrierter NPU für AI-Meeting-Features. Macht den Meetingraum autark: Meeting-Start per Touchpanel, kein Laptop nötig. Zentrales Management über Microsoft Teams Admin Center. Für 24/7/365-Betrieb in einem weiten Temperaturbereich ausgelegt. Lüfterloses Design für geräuscharmen Betrieb. 3 Jahre Premier Support inkl.</td>
+                <td><a href="https://geizhals.at/lenovo-thinksmart-core-gen2-12we000tge-a3796032.html" target="_blank" class="src-link">→ geizhals.at</a></td>
+              </tr>
+            </tbody>
+          </table></div>
+      
+          <h3>3. Server &amp; Netzwerk-Hardware</h3>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Produkt</th><th class="r">Menge</th><th class="r">EP</th><th class="r">GP</th><th>Begründung &amp; Einsatz</th><th>Preisquelle</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>Dell PowerEdge R360 (DV3W5, Rack, 1HE)</strong><small class="sub">Intel Xeon E-2400/6300 Series · ECC DDR5 · NVMe SSD · iDRAC9 · 1HE Rackmount</small></td>
+                <td class="r">1</td><td class="r">€ 3.989</td><td class="r"><strong>€ 3.989</strong></td>
+                <td>Primär-Server für Active Directory, DNS, DHCP, Gruppenrichtlinien und Fileserver-Dienste. ECC-RAM verhindert Speicherfehler – Pflicht für Produktionsserver. iDRAC9 für Remote-Wartung ohne physischen Zugriff. Dell 3-Jahre ProSupport Plus mit Next-Business-Day-Vor-Ort-Service. Nachfolger des R350 mit aktueller Xeon-6000-Serie und DDR5.</td>
+                <td><a href="https://geizhals.at/dell-poweredge-r360-dv3w5-a3751077.html" target="_blank" class="src-link">→ geizhals.at</a></td>
+              </tr>
+              <tr>
+                <td><strong>Dell Pro Max Desktop PC FCT2250 (BTS107)</strong><small class="sub">Core Ultra 9 285 · 32 GB DDR5 · 1 TB NVMe SSD · Win 11 Pro · Tower · vPro Enterprise</small></td>
+                <td class="r">1</td><td class="r">€ 1.899</td><td class="r"><strong>€ 1.899</strong></td>
+                <td>Sekundärer Domain Controller (Fallback bei R360-Ausfall) und lokales Veeam-Backup-Ziel (3-2-1-Backup-Regel). Tower-Format, kein Rack-Platz nötig. Hochleistungs-Workstation-Plattform für Admin-Aufgaben. vPro Enterprise ermöglicht Fernwartung auch bei ausgeschaltetem OS. Kostengünstige physische Redundanz mit aktuellster CPU-Generation.</td>
+                <td><a href="https://geizhals.at/dell-pro-max-desktop-pc-fct2250-bts107-fct2250-wer-a3479694.html" target="_blank" class="src-link">→ geizhals.at</a></td>
+              </tr>
+              <tr>
+                <td><strong>APC Smart-UPS 1500VA LCD SmartConnect (SMT1500IC)</strong><small class="sub">1500 VA / 1000 W · Line-Interactive · SmartConnect Netzwerkkarte · USB · Akku-Überwachung</small></td>
+                <td class="r">1</td><td class="r">€ 699</td><td class="r"><strong>€ 699</strong></td>
+                <td>Unterbrechungsfreie Stromversorgung für den gesamten Server-Rack. Schützt vor Spannungsspitzen und Stromausfällen. Bei Stromausfall: sauberes automatisches Shutdown der Server. SmartConnect-Netzwerkkarte für Überwachung und Fernsteuerung. Ca. 10 Minuten Überbrückungszeit für geordnetes Herunterfahren.</td>
+                <td><a href="https://geizhals.at/apc-smart-ups-1500va-lcd-smartconnect-smt1500ic-a1806822.html" target="_blank" class="src-link">→ geizhals.at</a></td>
+              </tr>
+              <tr>
+                <td><strong>Fortinet FortiGate-60F inkl. 1 Jahr FortiCare Premium + Enterprise Protection (FG-60F-BDL-809-12)</strong><small class="sub">1 Gbps Firewall · IPS · AV · CASB · DLP · AI Malware Prevention · Web/DNS Filter · App Control</small></td>
+                <td class="r">1</td><td class="r">€ 1.135</td><td class="r"><strong>€ 1.135</strong></td>
+                <td>Enterprise UTM-Firewall als Internet-Gateway und SSL-VPN-Endpunkt für Homeoffice. Das 1-Jahres-Enterprise-Protection-Bundle (EP) bietet gegenüber UTP zusätzlich CASB, DLP, AI-basierte Malware-Prevention und erweiterten Sandboxing-Schutz. Branchenführende IPS-Performance. FortiCloud-Management ohne eigenen Verwaltungsserver. Jährliche Renewal-Lizenz geplant.</td>
+                <td><a href="https://geizhals.at/3379944515" target="_blank" class="src-link">→ geizhals.at</a></td>
+              </tr>
+              <tr>
+                <td><strong>Ubiquiti UniFi Switch Pro Max 24 PoE (USW-Pro-Max-24-POE)</strong><small class="sub">24× GbE PoE+ · 8× 2.5G PoE++ · 2× 10G SFP+ Uplinks · 400W PoE-Budget · Layer 2/3 Managed</small></td>
+                <td class="r">1</td><td class="r">€ 716</td><td class="r"><strong>€ 716</strong></td>
+                <td>Nächste Generation des Switch Pro 24 mit 2.5G-Anschlüssen für PoE++-Geräte. Versorgt alle APs und Konferenzraumgeräte direkt mit Strom. Zentrale Verwaltung über UniFi Network Controller (VLANs, QoS, Ports). 10G SFP+ Uplinks zur schnellen Server-Anbindung. Etherlighting-Statusanzeige für einfache Diagnose.</td>
+                <td><a href="https://geizhals.at/ubiquiti-unifiswitch-pro-max-24-rackmount-gigabit-smart-switch-usw-pro-max-24-poe-a3088697.html" target="_blank" class="src-link">→ geizhals.at</a></td>
+              </tr>
+              <tr>
+                <td><strong>Ubiquiti UniFi 6 Pro (U6-Pro-EU)</strong><small class="sub">WiFi 6 (802.11ax) · 4×4 MU-MIMO · 5300 Mbps · WPA3 · PoE-betrieben · bis 300+ Clients</small></td>
+                <td class="r">3</td><td class="r">€ 151</td><td class="r"><strong>€ 453</strong></td>
+                <td>3 Access Points decken alle Büroräume und Meetingräume mit WiFi 6 ab. Bis zu 75 % weniger Latenz als WiFi 5 – relevant für VoIP und VPN-Verbindungen. WPA3-Verschlüsselung, automatisches Channel-Management. PoE-betrieben direkt vom Switch – kein separates Netzteil nötig.</td>
+                <td><a href="https://geizhals.at/ubiquiti-unifi-6-pro-u6-pro-eu-a2626371.html" target="_blank" class="src-link">→ geizhals.at</a></td>
+              </tr>
+              <tr>
+                <td><strong>Ubiquiti UniFi Cloud Key Gen2+ (UCK-G2-PLUS)</strong><small class="sub">Dedizierte Controller-Hardware · 1 TB HDD · Batterie-Backup · UniFi OS</small></td>
+                <td class="r">1</td><td class="r">€ 189</td><td class="r"><strong>€ 189</strong></td>
+                <td>Dedizierte Hardware für UniFi Network Controller (verwaltet alle Switches und APs). Läuft 24/7 unabhängig von einem PC. Kein Cloud-Abonnement nötig. Integrierter 1-TB-Speicher für UniFi Protect (optional). Batterie-Backup für kurze Stromausfälle. Einmaliger Kauf, keine Lizenzkosten.</td>
+                <td><a href="https://geizhals.at/ubiquiti-unifi-cloud-key-gen2-plus-uck-g2-plus-a1909874.html" target="_blank" class="src-link">→ geizhals.at</a></td>
+              </tr>
+              <tr>
+                <td><strong>19" Netzwerk-Rack 12HE, abschließbar + CAT6A Patchfeld 24-Port</strong><small class="sub">Stahlgehäuse · Schlosssystem · Belüftung · inkl. Patchkabel-Management</small></td>
+                <td class="r">1</td><td class="r">€ 349</td><td class="r"><strong>€ 349</strong></td>
+                <td>Strukturierte Unterbringung aller aktiven Netzwerkkomponenten. Abschließbar (physische Sicherheit nach DSGVO TOM-Anforderungen). CAT6A-Patchfeld für übersichtliche Kabel-Dokumentation und einfachen Austausch ohne Unterbrechung anderer Ports.</td>
+                <td><a href="https://geizhals.at/?cat=accsrvserv&xf=173_19+Zoll" target="_blank" class="src-link">→ geizhals.at</a></td>
+              </tr>
+            </tbody>
+          </table></div>
+      
+          <h3>4. Möbel &amp; Desksharing-Ausstattung (16 Plätze)</h3>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Produkt</th><th class="r">Menge</th><th class="r">EP</th><th class="r">GP</th><th>Begründung</th><th>Preisquelle</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>FlexiSpot E2L Elektrisch höhenverstellbares Eckschreibtisch-Gestell (schwarz)</strong><small class="sub">Elektromotor · L-förmiges Gestell · Memory-Steuerung · stufenlose Höhe 71–121 cm · Antikollision</small></td>
+                <td class="r">16</td><td class="r">€ 299</td><td class="r"><strong>€ 4.784</strong></td>
+                <td>L-förmiges Eckschreibtisch-Gestell (Tischplatte separat zu wählen). Beim Desksharing zwingend höhenverstellbar – Memory-Funktion speichert individuelle Höhen-Profile. Antikollisions-Sensor stoppt bei Hindernissen. L-Form bietet maximale Arbeitsfläche für Dual-Monitor + Laptop. 5 Jahre Motor-Garantie.</td>
+                <td><a href="https://geizhals.at/flexispot-e2l-elektrisch-hoehenverstellbares-sitz-steh-eckschreibtischgestell-schwarz-a3516618.html" target="_blank" class="src-link">→ geizhals.at</a></td>
+              </tr>
+              <tr>
+                <td><strong>SONGMICS OBN063B01 Ergonomischer Bürostuhl</strong><small class="sub">Mesh-Rücken · verstellbare Lendenstütze · verstellbare Kopfstütze · bis 150 kg · höhenverstellbar</small></td>
+                <td class="r">16</td><td class="r">€ 91</td><td class="r"><strong>€ 1.456</strong></td>
+                <td>Für wechselnde Nutzer im Desksharing ausgelegt. Verstellbare Lendenstütze und Kopfstütze für individuelle Anpassung. Atmungsaktives Mesh-Netz für ganztägigen Einsatz. Bis 150 kg belastbar. Kosteneffiziente Lösung für ergonomische Grundanforderungen nach ASchG.</td>
+                <td><a href="https://geizhals.at/songmics-obn063b01-buerostuhl-a2791027.html" target="_blank" class="src-link">→ geizhals.at</a></td>
+              </tr>
+              <tr>
+                <td><strong>Ergotron LX Pro Dual Monitor Arm (45-690-292)</strong><small class="sub">Aluminium · 2× bis 27" / bis 9 kg je Arm · VESA 75×75 / 100×100 · hohe Säule · Kabelmanagement</small></td>
+                <td class="r">16</td><td class="r">€ 337</td><td class="r"><strong>€ 5.392</strong></td>
+                <td>Beide Monitore werden am Arm befestigt – gibt Tischfläche zurück und ermöglicht mühelose Höhen- und Winkelanpassung für jeden Nutzer ohne Werkzeug. Hohe Säule für optimalen Sitzabstand. Constant Force-Technologie für präzise Positionierung. 10 Jahre Garantie. Integriertes Kabelmanagement.</td>
+                <td><a href="https://geizhals.at/ergotron-lx-pro-dual-monitor-arm-45-690-292-a3441554.html" target="_blank" class="src-link">→ geizhals.at</a></td>
+              </tr>
+              <tr>
+                <td><strong>CP Schließfachschrank Classic PLUS schwarzgrau/weißaluminium (080020-403, 12 Fächer)</strong><small class="sub">Stahl · Pincode-Schloss · 12 Fächer · 120,0 × 50,0 × 195,0 cm · stapelbar</small></td>
+                <td class="r">2</td><td class="r">€ 699</td><td class="r"><strong>€ 1.398</strong></td>
+                <td>2 Schränke à 12 Fächer = 24 Schließfächer für 22 Mitarbeiter + 2 Reserve. Beim Desksharing benötigt jeder Mitarbeiter ein persönliches, abschließbares Fach für Wertsachen und Unterlagen. Pincode-Schloss: kein Schlüsselverlust möglich. Stahl-Qualität von CP für dauerhaften Einsatz. DSGVO-relevant: Vertrauliche Unterlagen dürfen nicht auf nicht-reservierten Tischen liegen.</td>
+                <td><a href="https://geizhals.at/4877291075" target="_blank" class="src-link">→ geizhals.at</a></td>
+              </tr>
+              <tr>
+                <td><strong>Strukturierte Verkabelung CAT6A (Material + Montage durch Fachbetrieb)</strong><small class="sub">CAT6A · TIA-568-C.2 · bis 10 Gbps · Messzertifikat · inkl. Patchkabel, Verlegekabel, Dosen</small></td>
+                <td class="r">1</td><td class="r">€ 8.200</td><td class="r"><strong>€ 8.200</strong></td>
+                <td>Pauschalpreis für professionelle Verkabelung aller 16 Desksharing-Plätze, Server-Rack und 2 Meetingräume. CAT6A ist zukunftssicher für 10-Gigabit-Ethernet. Montage durch zertifizierten Fachbetrieb ist Pflicht für Hersteller-Garantien. Messzertifikat dokumentiert Kabelqualität für Versicherung und Gewährleistung.</td>
+                <td><a href="https://geizhals.at/?cat=accsrvserv&xf=173_Patchkabel+Cat+6a" target="_blank" class="src-link">→ geizhals.at (Referenz)</a></td>
+              </tr>
+              <tr class="total"><td colspan="3">CAPEX GESAMT (Netto)</td><td class="r">€ 84.669</td><td colspan="2">+ Prof. Services + Lizenzen = € 115.358 gesamt</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      
+        <div class="sec-card">
+          <h2>OPEX – Laufende monatliche Betriebskosten</h2>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Dienstleistung / Lizenz</th><th class="r">Menge</th><th class="r">Preis/Einheit</th><th class="r">Monatlich</th><th class="r">Jährlich</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Microsoft 365 Business Premium</strong><small class="sub">Teams, Exchange, OneDrive, Intune, Defender, Entra ID</small></td><td class="r">22 User</td><td class="r">€ 22,00</td><td class="r">€ 484,00</td><td class="r">€ 5.808</td></tr>
+              <tr><td><strong>deskbird – Desk Booking SaaS</strong><small class="sub">Desksharing-Tool, Teams-Integration, DSGVO-konform (EU)</small></td><td class="r">22 User</td><td class="r">€ 3,50</td><td class="r">€ 77,00</td><td class="r">€ 924</td></tr>
+              <tr><td><strong>Business Glasfaser Internet (1 Gbps symmetrisch)</strong></td><td class="r">1 Leitung</td><td class="r">€ 149,00</td><td class="r">€ 149,00</td><td class="r">€ 1.788</td></tr>
+              <tr><td><strong>Fortinet Enterprise Protection Renewal (anteilig)</strong></td><td class="r">1</td><td class="r">anteilig</td><td class="r">€ 33,33</td><td class="r">€ 400</td></tr>
+              <tr><td><strong>IT-Support Managed Service (4h/Monat NBD)</strong></td><td class="r">Pauschale</td><td class="r">Fixpreis</td><td class="r">€ 800,00</td><td class="r">€ 9.600</td></tr>
+              <tr><td><strong>Veeam Backup Essentials (Renewal)</strong></td><td class="r">1</td><td class="r">anteilig</td><td class="r">€ 41,67</td><td class="r">€ 500</td></tr>
+              <tr><td><strong>Verbrauchsmaterial / IT-Peripherie</strong></td><td class="r">Pauschale</td><td class="r">Erfahrungswert</td><td class="r">€ 80,00</td><td class="r">€ 960</td></tr>
+              <tr class="total"><td colspan="3">OPEX GESAMT (Netto)</td><td class="r">€ 1.665,00</td><td class="r">€ 19.980,00</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      
+        <div class="sec-card">
+          <h2>Microsoft 365 Stack – Enthaltene Dienste</h2>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>M365-Dienst</th><th>Funktion für KritSolutions</th><th>Strategischer Mehrwert</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Microsoft Teams</strong></td><td>Chat, Video, Daily Standup, Dev-Kanäle, Code-Reviews, Gastzugänge</td><td>Zentrale Kommunikationsplattform, ersetzt separate Chat-Tools</td></tr>
+              <tr><td><strong>Exchange Online (50 GB/Postfach)</strong></td><td>@kritsolutions.at E-Mail, Shared Mailboxen, Kalender</td><td>Kein lokaler Exchange-Server nötig</td></tr>
+              <tr><td><strong>OneDrive for Business (1 TB/User)</strong></td><td>Cloud-Sync, Known-Folder-Move, Homeoffice-Datenzugriff</td><td>Automatisches Backup der Laptop-Dokumente</td></tr>
+              <tr><td><strong>Microsoft Intune (MDM)</strong></td><td>Gerätemanagement Windows-Laptops, Compliance-Policies, App-Deployment</td><td>Remote Wipe bei Verlust/Diebstahl, Zero-Touch-Deployment</td></tr>
+              <tr><td><strong>Entra ID P1 (Azure AD)</strong></td><td>SSO, MFA, Conditional Access, Hybrid-AD via Entra Connect</td><td>Identitätsbrücke zwischen On-Prem AD und Cloud</td></tr>
+              <tr><td><strong>Microsoft Defender for Business</strong></td><td>Next-Gen AV, EDR, Security Baseline</td><td>Ersetzt separates AV-Produkt, zentrale Security-Konsole</td></tr>
+              <tr><td><strong>SharePoint Online</strong></td><td>Teamsites, Projektdokumentation, Intranet-Portal</td><td>Teams-Dateispeicher basiert auf SharePoint</td></tr>
+              <tr><td><strong>Microsoft 365 Apps (Office)</strong></td><td>Word, Excel, PowerPoint, OneNote – 5 Installs/User</td><td>Immer aktuell, keine separaten Office-Lizenzen</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      
+        <div class="sec-card">
+          <h2>Professional Services – Deployment &amp; Integration</h2>
+          <div class="info-box">Stundensatz: € 120/h (Systemhaus-Standard). Basis: zertifizierte Senior-Systemingenieure.</div>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Leistungspaket</th><th class="r">Stunden</th><th class="r">Kosten (Netto)</th><th>Lieferung</th></tr></thead>
+            <tbody>
+              <tr><td>Projektmanagement &amp; Architektur-Konzeption</td><td class="r">12 h</td><td class="r">€ 1.440</td><td>Pflichtenheft, Kickoff, Projektplan</td></tr>
+              <tr><td>Server-Montage &amp; OS-Härtung (Dell R360 + Pro Max)</td><td class="r">8 h</td><td class="r">€ 960</td><td>RAID-Konfig, Windows Server 2022 Install</td></tr>
+              <tr><td>Active Directory &amp; GPO Design</td><td class="r">16 h</td><td class="r">€ 1.920</td><td>OU-Struktur, AGDLP, Passwortrichtlinien</td></tr>
+              <tr><td>Fileserver &amp; NTFS Berechtigungsstruktur</td><td class="r">8 h</td><td class="r">€ 960</td><td>Shares, FSRM Quotas, File Screening, Audit</td></tr>
+              <tr><td>Microsoft 365 Tenant-Konfiguration</td><td class="r">12 h</td><td class="r">€ 1.440</td><td>Security Defaults, Conditional Access, MFA</td></tr>
+              <tr><td>Entra Connect (Hybrid Identity)</td><td class="r">4 h</td><td class="r">€ 480</td><td>On-Prem AD → Cloud Sync</td></tr>
+              <tr><td>Laptop-Deployment (22 Geräte – 2h/Gerät)</td><td class="r">44 h</td><td class="r">€ 5.280</td><td>Unboxing, Domain Join, GPO, VPN, M365, Headset</td></tr>
+              <tr><td>Intune &amp; Autopilot Profile</td><td class="r">8 h</td><td class="r">€ 960</td><td>Compliance Policies, App-Deployment</td></tr>
+              <tr><td>Netzwerk &amp; Firewall (FortiGate, UniFi, VLANs)</td><td class="r">12 h</td><td class="r">€ 1.440</td><td>VLAN-Setup, VPN-Konfiguration, IPS-Tuning</td></tr>
+              <tr><td>Konferenzräume (Poly Studio R30 + ThinkSmart Core Gen2 + Yealink MD75)</td><td class="r">6 h</td><td class="r">€ 720</td><td>Montage, Teams Rooms Account, Testanruf</td></tr>
+              <tr><td>deskbird Integration + Teams-App</td><td class="r">3 h</td><td class="r">€ 360</td><td>M365-Verbindung, Desk+Raum anlegen</td></tr>
+              <tr><td>Security-Härtung &amp; Netzwerkdokumentation</td><td class="r">8 h</td><td class="r">€ 960</td><td>Security Score, Visio-Netzwerkplan</td></tr>
+              <tr><td>Enduser-Schulung (2× Gruppen-Sessions)</td><td class="r">4 h</td><td class="r">€ 480</td><td>Teams, OneDrive, deskbird, VPN, Security</td></tr>
+              <tr><td>Reisekosten &amp; Vor-Ort-Einsätze (5 Tage)</td><td class="r">–</td><td class="r">€ 1.000</td><td>Pauschal inkl. Spesen</td></tr>
+              <tr class="total"><td>Σ Professional Services (Netto)</td><td class="r">145 h</td><td class="r">€ 17.400 + € 1.000 = € 18.400</td><td></td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      
+        <div class="sec-card">
+          <h2>Hidden Costs – Oft vergessene Kostenpositionen</h2>
+          <div class="warn-box">Diese Positionen fehlen in vielen IT-Angeboten – sie fallen aber real an und müssen in der 3-5-Jahres-Planung berücksichtigt werden.</div>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Kostenart</th><th class="r">Jährlich (Netto)</th><th>Erläuterung</th></tr></thead>
+            <tbody>
+              <tr><td>IT-Support Overrun (Mehrstunden über SLA)</td><td class="r">€ 2.400</td><td>20h Mehrstunden/Jahr × € 120 (Incidents, Sonderprojekte)</td></tr>
+              <tr><td>Hardware-Reparatur &amp; Ersatzteile</td><td class="r">€ 1.200</td><td>Akku, Maus, defekte Docking – Erfahrungswert 22 Geräte</td></tr>
+              <tr><td>Hardware-Lifecycle Rückstellung (Laptops alle 4 Jahre)</td><td class="r">€ 7.205</td><td>22 Laptops × €1.314 / 4 Jahre = €7.227/Jahr</td></tr>
+              <tr><td>Downtime-Kosten (1 kritischer Ausfall/Jahr)</td><td class="r">€ 1.430</td><td>1h × 22 MA × €65/h Stundenwert</td></tr>
+              <tr><td>Lizenz-Preissteigerungen Microsoft (Ø 5-10%/Jahr)</td><td class="r">€ 580</td><td>Historisch: MS erhöhte 2022 um 25%</td></tr>
+              <tr><td>Security-Incident / Phishing-Reaktion</td><td class="r">€ 960</td><td>8h Forensik × €120 bei 1 Incident/Jahr</td></tr>
+              <tr><td>Schulungen &amp; Zertifizierungen</td><td class="r">€ 1.500</td><td>Security-Awareness, Teams-Schulung, Onboarding neuer MA</td></tr>
+              <tr><td>DSGVO / Datenschutzbeauftragter (extern)</td><td class="r">€ 1.200</td><td>€ 100/Monat externer DSB + Dokumentationspflege</td></tr>
+              <tr><td>Cyber-Liability + Hardware-Versicherung</td><td class="r">€ 1.800</td><td>Cyber-Police ~€1.200 + HW-Versicherung ~€600/Jahr</td></tr>
+              <tr class="total"><td>Σ Hidden Costs / Jahr</td><td class="r">€ 18.275</td><td>Realistisch einzuplanen</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      
+        <div class="sec-card">
+          <h2>TCO – Total Cost of Ownership (5 Jahre)</h2>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Position</th><th class="r">Jahr 1</th><th class="r">Jahr 2</th><th class="r">Jahr 3</th><th class="r">Jahr 4</th><th class="r">Jahr 5</th></tr></thead>
+            <tbody>
+              <tr><td>CAPEX (Hardware &amp; Einmalinvest)</td><td class="r">€ 115.358</td><td class="r">€ 0</td><td class="r">€ 0</td><td class="r">€ 25.000</td><td class="r">€ 0</td></tr>
+              <tr><td>OPEX (Laufende Kosten)</td><td class="r">€ 19.980</td><td class="r">€ 20.580</td><td class="r">€ 21.200</td><td class="r">€ 21.840</td><td class="r">€ 22.500</td></tr>
+              <tr><td>Professional Services</td><td class="r">€ 18.400</td><td class="r">€ 2.400</td><td class="r">€ 2.400</td><td class="r">€ 4.800</td><td class="r">€ 2.400</td></tr>
+              <tr><td>Kalkulierte Zusatzkosten (Hidden Costs)</td><td class="r">€ 12.000</td><td class="r">€ 16.675</td><td class="r">€ 16.675</td><td class="r">€ 16.675</td><td class="r">€ 16.675</td></tr>
+              <tr class="subtot"><td>Jahreskosten</td><td class="r">€ 165.738</td><td class="r">€ 39.655</td><td class="r">€ 40.275</td><td class="r">€ 68.315</td><td class="r">€ 41.575</td></tr>
+              <tr class="total"><td>KUMULIERTE TCO</td><td class="r">€ 165.738</td><td class="r">€ 205.393</td><td class="r">€ 245.668</td><td class="r">€ 313.983</td><td class="r">€ 355.558</td></tr>
+            </tbody>
+          </table></div>
+          <div class="chart-wrap"><canvas id="tcoChart" role="img" aria-label="Gestapeltes Balkendiagramm TCO über 5 Jahre"></canvas></div>
+        </div>
+      </div>
+
+<!-- =========================================================
+     X3 – NETZWERK / PACKET TRACER
+     ========================================================= -->
+<div id="x3" class="main-section">
+  <div class="cover-banner"><h1>X3 – Netzwerk &amp; Packet Tracer</h1><div class="sub">Lab-Architektur vs. reale Produktionsarchitektur · KritSolutions</div></div>
+
+  <div class="sec-card">
+    <h2>Lab-Umgebung vs. Produktions-Architektur</h2>
+    <div class="info-box">In der Lab-Umgebung wird das 3-Netz-Modell umgesetzt, damit die Aufgabenstellung realistisch und prüfungstauglich bleibt. In der realen Kostenplanung (X2) wird das Netzwerk auf 5 VLANs erweitert, da dies produktionsnäher und sicherer ist. Das ist kein Widerspruch – es sind zwei verschiedene Kontexte.</div>
+    <div class="two-col">
+      <div>
+        <h3>Lab-Netz (VirtualBox / Packet Tracer)</h3>
+        <div class="tbl-wrap"><table>
+          <thead><tr><th>Netz</th><th>Subnetz</th><th>Systeme</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Client-Netz</strong></td><td>10.10.10.0/24</td><td>DC01 (.10), FS01 (.20), CLIENT-INT</td></tr>
+            <tr><td><strong>Server-Netz</strong></td><td>10.10.20.0/24</td><td>Konzeptionell getrennt (vereinfacht)</td></tr>
+            <tr><td><strong>VPN-Netz</strong></td><td>10.10.30.0/24</td><td>VPN01 Gateway, CLIENT-EXT nach VPN-Connect</td></tr>
+            <tr><td><strong>Simul. Internet</strong></td><td>extern / isoliert</td><td>Simulierter externer Zugriff für VPN-Test</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+      <div>
+        <h3>Produktions-Architektur (5 VLANs)</h3>
+        <div class="tbl-wrap"><table>
+          <thead><tr><th>VLAN</th><th>Name</th><th>Subnetz</th></tr></thead>
+          <tbody>
+            <tr><td>VLAN 10</td><td>Management</td><td>192.168.10.0/24</td></tr>
+            <tr><td>VLAN 20</td><td>User/Office</td><td>192.168.20.0/24</td></tr>
+            <tr><td>VLAN 30</td><td>Server Zone</td><td>192.168.30.0/24</td></tr>
+            <tr><td>VLAN 40</td><td>IoT/Peripherie</td><td>192.168.40.0/24</td></tr>
+            <tr><td>VLAN 50</td><td>Guest WLAN</td><td>192.168.50.0/24</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-card">
+    <h2>Netzwerkdiagramm – Lab-Topologie</h2>
+    <div class="net-diagram">
+┌─────────────────────────────────────────────────────────────────┐
+│                    SIMULIERTES INTERNET                          │
+│                    (isoliertes ext. Netz)                        │
+└────────────────────────┬────────────────────────────────────────┘
+                         │
+                ┌────────┴────────┐
+                │     VPN01       │   IPFire (Lab)
+                │  192.168.10.1   │   FortiGate 60F (Produktion)
+                │  10.10.10.1     │   SSL-VPN + UTM-Firewall
+                └───┬─────────────┘
+                    │
+         ┌──────────┴──────────┐
+         │     CORE SWITCH     │   UniFi Switch Pro 24 PoE
+         │   (Layer 2/3)       │   WiFi 6 APs (3× U6 Pro)
+         └──┬─────────┬────────┘
+            │         │
+  ┌─────────┴──┐   ┌──┴──────────┐
+  │    DC01    │   │    FS01     │
+  │10.10.10.10 │   │10.10.10.20  │
+  │AD DS + DNS │   │File Server  │
+  │DHCP + GPO  │   │NTFS + FSRM  │
+  └────────────┘   └─────────────┘
+            │
+  ┌─────────┴──────┐
+  │  CLIENT-INT    │   Domänen-beigetretener Windows Client
+  │  (DHCP)        │   Testsystem intern
+  └────────────────┘
+
+  [VPN-Tunnel]──── CLIENT-EXT ────── (Homeoffice-Simulation)
+                   erhält 10.10.30.x nach VPN-Connect</div>
+    <div class="screenshot-box"><span class="cam">📷</span>Packet Tracer Screenshot / Video hier einbetten<br><small>Platzhalter für Packet-Tracer-Simulation oder Bildschirmvideo (.pkt-Datei öffnen und hier Screenshot einfügen)</small></div>
+    <div class="todo-box">Packet Tracer .pkt-Datei hier verlinken oder Screenshot der fertigen Topologie einfügen</div>
+  </div>
+
+  <div class="sec-card">
+    <h2>VPN-Konzept – Homeoffice-Zugriff</h2>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Parameter</th><th>Lab (IPFire)</th><th>Produktion (FortiGate)</th></tr></thead>
+      <tbody>
+        <tr><td>VPN-Typ</td><td>OpenVPN</td><td>SSL-VPN (FortiClient) + IPSec Fallback</td></tr>
+        <tr><td>Authentifizierung</td><td>Benutzername/Passwort + Zertifikat</td><td>Entra ID MFA + Zertifikat (Dual-Auth)</td></tr>
+        <tr><td>VPN-Netz</td><td>10.10.30.0/24</td><td>192.168.VPN.0/24</td></tr>
+        <tr><td>Durchsatz</td><td>virtuell (keine Limitierung)</td><td>200 Mbps SSL-VPN (FortiGate 60F)</td></tr>
+        <tr><td>Max. Tunnel</td><td>abhängig von VM-Ressourcen</td><td>25 gleichzeitige Tunnel</td></tr>
+        <tr><td>Split-Tunneling</td><td>konfigurierbar</td><td>Aktiviert für M365 (direkt ins Internet)</td></tr>
+        <tr><td>Client-Software</td><td>OpenVPN Client (kostenlos)</td><td>FortiClient VPN (kostenlos) via Intune</td></tr>
+        <tr><td>Protokollierung</td><td>IPFire VPN-Log</td><td>FortiGate Security Log + SIEM-Integration</td></tr>
+      </tbody>
+    </table></div>
+    <div class="why-box">Warum Segmentierung? Netzwerksegmentierung verhindert Lateral Movement: Wenn ein Gerät im User-Netz kompromittiert wird, kann der Angreifer nicht direkt auf Server-Ressourcen zugreifen – die Firewall kontrolliert jeden Übergang zwischen VLANs.</div>
+  </div>
+</div>
+
+<!-- =========================================================
+     X4 – SPRINT BOARD / ARBEITSPAKETE
+     ========================================================= -->
+<div id="x4" class="main-section">
+  <div class="cover-banner"><h1>X4 – Umsetzung / Sprint Board</h1><div class="sub">Status aller 19 Arbeitspakete auf einen Blick · Detaildoku → X1</div></div>
+  <div class="info-box">Dieser Sprint-Board zeigt den Status aller Arbeitspakete. Für vollständige Beschreibung, Testfälle und Screenshots → Bereich X1 (Gesamtdokumentation).</div>
+  <div class="sprint-grid">
+    <div class="sprint-card"><div class="sc-ap">AP01</div><div class="sc-title">Vorbereitung virtuelle Umgebung</div><div class="sc-desc">VirtualBox, 5 VMs (DC01, FS01, VPN01, 2 Clients), Netzwerktrennung intern/extern</div><div class="sc-footer"><span class="badge b-done">✓ Abgeschlossen</span><button class="sc-btn" onclick="showSection('x1')">Details →</button></div></div>
+    <div class="sprint-card"><div class="sc-ap">AP02</div><div class="sc-title">Domain Controller DC01</div><div class="sc-desc">Windows Server 2022, statische IP 10.10.10.10, AD DS + DNS, Domäne kritsolutions.local</div><div class="sc-footer"><span class="badge b-done">✓ Abgeschlossen</span><button class="sc-btn" onclick="showSection('x1')">Details →</button></div></div>
+    <div class="sprint-card"><div class="sc-ap">AP03</div><div class="sc-title">DNS-Funktionalität</div><div class="sc-desc">ping + nslookup dc01.kritsolutions.local, Reverse Lookup Zone, DNS-Server verifiziert</div><div class="sc-footer"><span class="badge b-done">✓ Abgeschlossen</span><button class="sc-btn" onclick="showSection('x1')">Details →</button></div></div>
+    <div class="sprint-card"><div class="sc-ap">AP04</div><div class="sc-title">AD Struktur / OUs</div><div class="sc-desc">OU-Hierarchie: Users (8 Abteilungen), Groups, Computers (Clients/Servers)</div><div class="sc-footer"><span class="badge b-done">✓ Abgeschlossen</span><button class="sc-btn" onclick="showSection('x1')">Details →</button></div></div>
+    <div class="sprint-card"><div class="sc-ap">AP05</div><div class="sc-title">22 Benutzerkonten</div><div class="sc-desc">Alle 22 Benutzer nach Namenskonvention erstellt, korrekt den OUs zugeordnet</div><div class="sc-footer"><span class="badge b-done">✓ Abgeschlossen</span><button class="sc-btn" onclick="showSection('x1')">Details →</button></div></div>
+    <div class="sprint-card"><div class="sc-ap">AP06</div><div class="sc-title">Gruppen (GRP_ + DL_)</div><div class="sc-desc">Globale Gruppen + Domain Local Groups für alle 8 Abteilungen in OU=Groups</div><div class="sc-footer"><span class="badge b-done">✓ Abgeschlossen</span><button class="sc-btn" onclick="showSection('x1')">Details →</button></div></div>
+    <div class="sprint-card"><div class="sc-ap">AP07</div><div class="sc-title">AGDLP-Prinzip</div><div class="sc-desc">User → Globale Gruppe → Domain Local → NTFS. Keine direkten Benutzerrechte.</div><div class="sc-footer"><span class="badge b-done">✓ Abgeschlossen</span><button class="sc-btn" onclick="showSection('x1')">Details →</button></div></div>
+    <div class="sprint-card"><div class="sc-ap">AP08</div><div class="sc-title">PowerShell-Automation</div><div class="sc-desc">New-ADUser, New-ADGroup, Start-Transcript, Nachweis in AD sichtbar</div><div class="sc-footer"><span class="badge b-done">✓ Abgeschlossen</span><button class="sc-btn" onclick="showSection('x1')">Details →</button></div></div>
+    <div class="sprint-card"><div class="sc-ap">AP09</div><div class="sc-title">Fileserver FS01</div><div class="sc-desc">Statische IP 10.10.10.20, Domain Join kritsolutions.local, C:\Shares\ Struktur</div><div class="sc-footer"><span class="badge b-done">✓ Abgeschlossen</span><button class="sc-btn" onclick="showSection('x1')">Details →</button></div></div>
+    <div class="sprint-card"><div class="sc-ap">AP10</div><div class="sc-title">Netzwerkfreigaben</div><div class="sc-desc">9 Shares: \\FS01\[Abteilung] + \\FS01\Home$ – alle im Netzwerk erreichbar</div><div class="sc-footer"><span class="badge b-done">✓ Abgeschlossen</span><button class="sc-btn" onclick="showSection('x1')">Details →</button></div></div>
+    <div class="sprint-card"><div class="sc-ap">AP11</div><div class="sc-title">Berechtigungskonzept</div><div class="sc-desc">NTFS über DL_SHARE_* Gruppen, erlaubter + verweigerter Zugriff validiert</div><div class="sc-footer"><span class="badge b-done">✓ Abgeschlossen</span><button class="sc-btn" onclick="showSection('x1')">Details →</button></div></div>
+    <div class="sprint-card"><div class="sc-ap">AP12</div><div class="sc-title">Home-Laufwerke</div><div class="sc-desc">Laufwerk H: per AD-Profil, \\FS01\Home$\%username%, nur Eigentümer hat Zugriff</div><div class="sc-footer"><span class="badge b-done">✓ Abgeschlossen</span><button class="sc-btn" onclick="showSection('x1')">Details →</button></div></div>
+    <div class="sprint-card"><div class="sc-ap">AP13</div><div class="sc-title">Quota (FSRM)</div><div class="sc-desc">1 GB Hard Quota auf Home$, automatische Anwendung auf Unterordner</div><div class="sc-footer"><span class="badge b-done">✓ Abgeschlossen</span><button class="sc-btn" onclick="showSection('x1')">Details →</button></div></div>
+    <div class="sprint-card"><div class="sc-ap">AP14</div><div class="sc-title">File Screening</div><div class="sc-desc">FSRM blockiert MP3, WAV, FLAC, AAC, OGG auf allen Shares</div><div class="sc-footer"><span class="badge b-done">✓ Abgeschlossen</span><button class="sc-btn" onclick="showSection('x1')">Details →</button></div></div>
+    <div class="sprint-card"><div class="sc-ap">AP15</div><div class="sc-title">Packet Tracer Netzwerk</div><div class="sc-desc">3-Netz-Topologie modelliert, IP-Konzept konfiguriert, Ping-Tests erfolgreich</div><div class="sc-footer"><span class="badge b-done">✓ Abgeschlossen</span><button class="sc-btn" onclick="showSection('x3')">Netzwerk →</button></div></div>
+    <div class="sprint-card"><div class="sc-ap">AP16</div><div class="sc-title">VPN-Zugang (IPFire)</div><div class="sc-desc">OpenVPN konfiguriert, externer Client verbindet sich, interne Ressourcen erreichbar</div><div class="sc-footer"><span class="badge b-done">✓ Abgeschlossen</span><button class="sc-btn" onclick="showSection('x1')">Details →</button></div></div>
+    <div class="sprint-card"><div class="sc-ap">AP17</div><div class="sc-title">Audit Logging (GPO)</div><div class="sc-desc">Audit-Policies via GPO, Event Viewer Security Log, Event IDs 4625/4663 sichtbar</div><div class="sc-footer"><span class="badge b-done">✓ Abgeschlossen</span><button class="sc-btn" onclick="showSection('x1')">Details →</button></div></div>
+    <div class="sprint-card"><div class="sc-ap">AP18</div><div class="sc-title">Gruppenrichtlinien (GPO)</div><div class="sc-desc">Passwortrichtlinie (10 Zeichen, Komplexität), Benutzereinschränkungen, Bildschirmsperre</div><div class="sc-footer"><span class="badge b-done">✓ Abgeschlossen</span><button class="sc-btn" onclick="showSection('x1')">Details →</button></div></div>
+    <div class="sprint-card"><div class="sc-ap">AP19</div><div class="sc-title">Wirtschaftlichkeitsbetrachtung</div><div class="sc-desc">CAPEX €115.358, OPEX €1.665/Monat, TCO 5J €352.118 – vollständig kalkuliert</div><div class="sc-footer"><span class="badge b-done">✓ Abgeschlossen</span><button class="sc-btn" onclick="showSection('x2')">Kosten →</button></div></div>
+  </div>
+</div>
+
+<!-- =========================================================
+     X5 – PRÄSENTATION
+     ========================================================= -->
+<div id="x5" class="main-section">
+  <div class="cover-banner"><h1>X5 – Präsentation</h1><div class="sub">Story, Aufbau und Leitfaden für die Abschlusspräsentation</div></div>
+
+  <div class="sec-card">
+    <h2>Präsentationsleitfaden – Die Story von KritSolutions</h2>
+    <div class="info-box">Eine gute Präsentation liest keine technischen Details vor – sie erzählt eine Geschichte. Ziel ist es, dem Prüfer zu zeigen: Du verstehst das Warum hinter jeder Entscheidung, nicht nur das Wie.</div>
+    <div class="todo-box">PowerPoint-Datei noch erstellen und hier verlinken. Die folgende Storyline dient als Grundlage für die Folien.</div>
+
+    <div class="slide-card"><div class="slide-num">01</div><div class="slide-info"><div class="title">Deckblatt – Wer präsentiert hier?</div><div class="notes">Name, Unternehmen (CANCOM Austria AG), Datum, Projekttitel. Selbstsicher auftreten – du bist der Experte für dieses Projekt.</div></div></div>
+    <div class="slide-card"><div class="slide-num">02</div><div class="slide-info"><div class="title">Wer ist der Kunde? KritSolutions stellt sich vor.</div><div class="notes">22 Mitarbeiter, Hybrid Work, Desksharing, 8 Abteilungen. Kein IT-Vorwissen beim Kunden annehmen. Einfach und klar erklären.</div></div></div>
+    <div class="slide-card"><div class="slide-num">03</div><div class="slide-info"><div class="title">Was war die Ausgangssituation / das Problem?</div><div class="notes">Kein Active Directory, keine zentrale Benutzerverwaltung, keine Netzwerksegmentierung, unsicherer Homeoffice-Zugriff. Chaos ohne Struktur.</div></div></div>
+    <div class="slide-card"><div class="slide-num">04</div><div class="slide-info"><div class="title">Was war das Ziel des Projekts?</div><div class="notes">Zentrale, sichere, skalierbare IT-Infrastruktur. AGDLP-Berechtigungskonzept, VPN für Homeoffice, Netzwerksegmentierung, DSGVO-konform.</div></div></div>
+    <div class="slide-card"><div class="slide-num">05</div><div class="slide-info"><div class="title">Warum Active Directory? Warum eine Domäne?</div><div class="notes">Ohne AD muss man jeden PC einzeln verwalten. Mit AD: Zentrales Login, GPOs für alle, Berechtigungen über Gruppen – wartungsfreundlich und sicher.</div></div></div>
+    <div class="slide-card"><div class="slide-num">06</div><div class="slide-info"><div class="title">Warum Fileserver + AGDLP?</div><div class="notes">Abteilungsdaten sauber getrennt. Niemand sieht was er nicht sehen darf. AGDLP = keine direkten Userrechte, alles über Gruppen – skalierbar und nachvollziehbar.</div></div></div>
+    <div class="slide-card"><div class="slide-num">07</div><div class="slide-info"><div class="title">Warum VPN / Homeoffice?</div><div class="notes">Sicherer externer Zugriff dank IPFire (Lab) bzw. FortiGate (Produktion). Trennung von privaten und geschäftlichen Netzen. Der VPN-Tunnel holt den Mitarbeiter virtuell sicher ins Firmennetz.</div></div></div>
+    <div class="slide-card"><div class="slide-num">08</div><div class="slide-info"><div class="title">Security, Logging & GPOs</div><div class="notes">Warum Gruppenrichtlinien? Einheitliche Konfiguration und weniger Admin-Aufwand. Logging für Nachvollziehbarkeit (Event ID 4625). Quotas und File Screening als Schutz vor Datenmüll und Ressourcenverschwendung.</div></div></div>
+    <div class="slide-card"><div class="slide-num">09</div><div class="slide-info"><div class="title">Qualitätssicherung: Wie wurde getestet?</div><div class="notes">Hinweis auf die ISTQB-orientierten Testfälle. Nicht nur behaupten, dass es funktioniert – sondern nachweisen. Besonderer Fokus auf erlaubten vs. verweigerten Zugriff (AGDLP in der Praxis bewiesen).</div></div></div>
+    <div class="slide-card"><div class="slide-num">10</div><div class="slide-info"><div class="title">Wirtschaftlichkeit: Was kostet die Infrastruktur?</div><div class="notes">CAPEX: 111.844 €. OPEX: 1.665 €/Monat. Warum ist das eine sinnvolle Investition? Kurzer Hinweis auf TCO über 5 Jahre und warum "Hidden Costs" realistisch eingeplant wurden.</div></div></div>
+    <div class="slide-card"><div class="slide-num">11</div><div class="slide-info"><div class="title">Mehrwert & Zusammenfassung</div><div class="notes">Das Ergebnis: Zentrale Verwaltung, DSGVO-konform (TOMs), ausfallsicher und skalierbar. KritSolutions ist nun technologisch bereit für sicheres und produktives Hybrid-Work.</div></div></div>
+    <div class="slide-card"><div class="slide-num">12</div><div class="slide-info"><div class="title">Fazit & Fragerunde</div><div class="notes">Abschluss der Präsentation. Offene Fragerunde. Selbstbewusst bleiben – das System wurde von Grund auf selbst konzipiert und gebaut.</div></div></div>
+    </div>
+    </div>
+    
+    <div id="x6" class="main-section">
+      <div class="cover-banner">
+        <h1>X6 – Feedback & Bewertung</h1>
+        <div class="sub">Zuhörer-Feedback, Prüfer-Kommentare und Selbstreflexion</div>
+      </div>
+      
+      <div class="info-box">Dieser Bereich ist für Feedback aus der Präsentation vorgesehen und wird direkt nach der Projektvorstellung ergänzt. Dies dient der kontinuierlichen Verbesserung und Selbstreflexion.</div>
+      
+      <div class="two-col">
+        <div class="feedback-card">
+          <h4>👤 Feedback – Prüfer / Fachbetreuer 1</h4>
+          <p><span class="todo-inline">Name ergänzen</span></p>
+          <h4 style="margin-top:12px; font-size:12px; color:var(--green)">Stärken</h4>
+          <ul class="check">
+            <li><span class="todo-inline">Punkt 1 ergänzen</span></li>
+            <li><span class="todo-inline">Punkt 2 ergänzen</span></li>
+          </ul>
+          <h4 style="margin-top:12px; font-size:12px; color:var(--red-main)">Verbesserungspotenzial</h4>
+          <ul class="check" style="color:var(--muted)">
+            <li><span class="todo-inline">Punkt 1 ergänzen</span></li>
+          </ul>
+        </div>
+        
+        <div class="feedback-card">
+          <h4>👤 Feedback – Prüfer / Fachbetreuer 2</h4>
+          <p><span class="todo-inline">Name ergänzen</span></p>
+          <h4 style="margin-top:12px; font-size:12px; color:var(--green)">Stärken</h4>
+          <ul class="check">
+            <li><span class="todo-inline">Punkt 1 ergänzen</span></li>
+            <li><span class="todo-inline">Punkt 2 ergänzen</span></li>
+          </ul>
+          <h4 style="margin-top:12px; font-size:12px; color:var(--red-main)">Verbesserungspotenzial</h4>
+          <ul class="check" style="color:var(--muted)">
+            <li><span class="todo-inline">Punkt 1 ergänzen</span></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="sec-card" style="margin-top: 10px; border-left: 4px solid var(--dark);">
+        <h2>Offene Fragen aus der Präsentation</h2>
+        <table style="margin-top: 10px;">
+          <thead>
+            <tr>
+              <th>Gefragtes Thema / Frage</th>
+              <th>Gegebene Antwort / Erkenntnis</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="todo-inline">Frage ergänzen</span></td>
+              <td><span class="todo-inline">Antwort ergänzen</span></td>
+            </tr>
+            <tr>
+              <td><span class="todo-inline">Frage ergänzen</span></td>
+              <td><span class="todo-inline">Antwort ergänzen</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    
+      <div class="sec-card" style="border-left: 4px solid var(--green);">
+        <h2>Finale Selbstreflexion</h2>
+        <p><strong>Was lief im Projekt besonders gut?</strong></p>
+        <p><span class="todo-inline">Reflexion einfügen (z.B. Die Umsetzung des AGDLP-Prinzips und die logische Netzwerktrennung haben reibungslos funktioniert. Die Automatisierung per PowerShell war effizient.)</span></p>
+        
+        <p style="margin-top: 14px;"><strong>Wo gab es Herausforderungen und wie wurden sie gelöst?</strong></p>
+        <p><span class="todo-inline">Herausforderung einfügen (z.B. Anfängliche Routing-Probleme beim VPN-Tunnel. Gelöst durch detaillierte Paket-Analyse und Anpassung der Firewall-Regeln im Lab.)</span></p>
+        
+        <p style="margin-top: 14px;"><strong>Was würde ich beim nächsten Mal anders machen?</strong></p>
+        <p><span class="todo-inline">Erkenntnis einfügen (z.B. PowerShell-Skripte für die AD-Erstellung noch früher im Prozess vollständig vorbereiten, um die Testphasen zu beschleunigen.)</span></p>
+      </div>
+    </div>
+    
+    </div> <div class="footer">
+      &copy; 2026 Rohit Kumar – Abschlussprojekt 2. Lehrjahr – CANCOM Austria AG<br>
+      Vertraulich / Internal and External
+    </div>
+    
+    <script>
+      // Funktion: Alle Bereiche ausblenden
+      function hideAll() {
+        document.getElementById('landing').style.display = 'none';
+        const sections = document.querySelectorAll('.main-section');
+        sections.forEach(sec => sec.classList.remove('active'));
+        
+        const btns = document.querySelectorAll('.hn-btn');
+        btns.forEach(btn => btn.classList.remove('active'));
+      }
+    
+      // Funktion: Startseite anzeigen (Landing Page Grid)
+      function showHome() {
+        hideAll();
+        document.getElementById('landing').style.display = 'block';
+        const homeBtn = document.querySelector('.home-btn');
+        if (homeBtn) homeBtn.classList.add('active');
+        window.scrollTo(0, 0);
+      }
+    
+      // Funktion: Sektion X1 bis X6 anzeigen
+      function showSection(secId) {
+        hideAll();
+        document.getElementById(secId).classList.add('active');
+        
+        // Header-Button aktivieren
+        const activeBtn = document.querySelector(`.hn-btn[data-sec="${secId}"]`);
+        if (activeBtn) activeBtn.classList.add('active');
+        
+        // Nach oben scrollen
+        window.scrollTo(0, 0);
+    
+        // Wenn X2 (Kosten) aufgerufen wird, Chart triggern!
+        if (secId === 'x2') {
+          renderChart();
+        }
+      }
+    
+      // Funktion: Arbeitspakete (AP01-AP19) auf- und zuklappen
+      function toggleAP(apId) {
+        const content = document.getElementById(apId);
+        const btn = content.previousElementSibling;
+        
+        if (content.classList.contains('open')) {
+          content.classList.remove('open');
+          btn.classList.remove('open');
+        } else {
+          content.classList.add('open');
+          btn.classList.add('open');
+        }
+      }
+    
+      // Funktion: Chart.js für TCO aus Sektion X2 rendern
+      let chartRendered = false;
+      function renderChart() {
+        if (chartRendered) return; // Verhindert mehrfaches Rendern
+        const ctx = document.getElementById('tcoChart');
+        if (!ctx) return;
+        
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Jahr 1', 'Jahr 2', 'Jahr 3', 'Jahr 4', 'Jahr 5'],
+                datasets: [
+                    {
+                        label: 'CAPEX (Hardware)',
+                        data: [111844, 0, 0, 25000, 0],
+                        backgroundColor: '#BA0530' // CANCOM Rot
+                    },
+                    {
+                        label: 'OPEX (Laufende Kosten)',
+                        data: [19980, 20580, 21200, 21840, 22500],
+                        backgroundColor: '#232B33' // CANCOM Dark
+                    },
+                    {
+                        label: 'Professional Services',
+                        data: [18400, 2400, 2400, 4800, 2400],
+                        backgroundColor: '#5A6675' // CANCOM Medium Grey
+                    },
+                    {
+                        label: 'Zusatzkosten (Risiko)',
+                        data: [12000, 15815, 15815, 15815, 15815],
+                        backgroundColor: '#F9CDCD' // CANCOM Light Red
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: { stacked: true },
+                    y: {
+                        stacked: true,
+                        ticks: {
+                            callback: function(value) {
+                                return '€ ' + value.toLocaleString('de-AT');
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { position: 'bottom' },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) { label += ': '; }
+                                if (context.parsed.y !== null) {
+                                    label += '€ ' + context.parsed.y.toLocaleString('de-AT');
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        chartRendered = true;
+      }
+    </script>
+    </body>
+    </html>
