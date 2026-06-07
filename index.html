@@ -35,7 +35,7 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
-  font-family: "Segoe UI", Arial, sans-serif;
+  font-family: "Segoe UI", Inter, sans-serif;
   font-size: 13px;
   color: var(--text);
   background: var(--bg);
@@ -660,9 +660,9 @@ code { font-family: monospace; background: #F0F2F5; padding: 1px 5px; border-rad
     <div class="sub">Abschlussprojekt 2. Lehrjahr – Simulierte Firma · Rohit Kumar · CANCOM Austria AG · 22. Mai 2026</div>
     <div class="cover-meta">
       <div><span>Projektnummer</span>KS-INFRA-2026-01</div>
-      <div><span>Status</span>In Umsetzung</div>
+      <div><span>Status</span>Abgeschlossen</div>
       <div><span>Erstellt am</span>22.05.2026</div>
-      <div><span>Präsentation</span>15.06.2026</span></div>
+      <div><span>Präsentation</span>15.06.2026</div>
       <div><span>Mitarbeiter</span>22 Benutzer | 16 Arbeitsplätze</div>
       <div><span>Erstellt von</span>Rohit Kumar</div>
     </div>
@@ -743,10 +743,10 @@ code { font-family: monospace; background: #F0F2F5; padding: 1px 5px; border-rad
         <h4>Vorteile für die Präsentation</h4>
         <ul class="check">
           <li>Alle Inhalte in einer einzigen Datei – keine Medienbrüche</li>
-          <li>Prüfer können direkt zu jedem Bereich navigieren</li>
+          <li>Kunden können direkt zu jedem Bereich navigieren</li>
           <li>Testfälle und Arbeitspakete sofort auffindbar</li>
           <li>Kostenplanung und Dokumentation verknüpft</li>
-          <li>Wirkt moderner als eine klassische Word-Doku</li>
+          <li>Erleichert die Rückverfolgbarkeit</li>
           <li>Fehlende Inhalte (gelb markiert) sofort erkennbar</li>
         </ul>
       </div>
@@ -775,7 +775,7 @@ code { font-family: monospace; background: #F0F2F5; padding: 1px 5px; border-rad
         <div class="sec-card" id="einleitung">
           <h2>1. Einleitung</h2>
           <h3>Projektbeschreibung</h3>
-          <p>Im Rahmen dieses Projekts wurde eine IT-Infrastruktur für ein mittelständiges Unternehmen mit rund 20 Mitarbeitenden konzipiert und umgesetzt. Ziel war es, eine zukunftssichere, sichere und strukturierte IT-Umgebung bereitzustellen, die sowohl den internen Betrieb als auch externen Zugriff über Homeoffice ermöglicht. Der Fokus lag dabei auf der Implementierung einer zentral verwalteten Windows Domäne, der strukturierten Benutzer- und Rechteverwaltung sowie der sicheren Bereitstellung von Unternehmensressourcen über ein VPN.</p>
+          <p>Im Rahmen dieses Projekts wurde eine IT-Infrastruktur für ein mittelständische Unternehmen mit rund 20 Mitarbeitenden konzipiert und umgesetzt. Ziel war es, eine zukunftssichere, sichere und strukturierte IT-Umgebung bereitzustellen, die sowohl den internen Betrieb als auch externen Zugriff über Homeoffice ermöglicht. Der Fokus lag dabei auf der Implementierung einer zentral verwalteten Windows Domäne, der strukturierten Benutzer- und Rechteverwaltung sowie der sicheren Bereitstellung von Unternehmensressourcen über ein VPN.</p>
           <h3>Zielsetzung</h3>
           <p>Ziel des Projekts ist es die Planung und Umsetzung einer vollständigen IT-Infrastruktur mit folgenden Kernkomponenten:</p>
           <ul class="check" style="margin-left:6px">
@@ -1009,7 +1009,7 @@ code { font-family: monospace; background: #F0F2F5; padding: 1px 5px; border-rad
                     <tr><td>Umsetzung</td><td class="r">10 h</td></tr>
                     <tr><td>Tests &amp; Dokumentation</td><td class="r">6 h</td></tr>
                     <tr><td>Präsentation</td><td class="r">4 h</td></tr>
-                    <tr class="total"><td>Gesamt</td><td class="r">34 h</td></tr>
+                    <tr class="total"><td>Gesamt</td><td class="r">26 h</td></tr>
                   </tbody>
                 </table>
               </div>
@@ -1082,10 +1082,10 @@ code { font-family: monospace; background: #F0F2F5; padding: 1px 5px; border-rad
               <div class="ap-meta-item"><div class="lbl">Dauer</div><div class="val">1 h</div></div>
               <div class="ap-meta-item"><div class="lbl">Status</div><div class="val"><span class="badge b-passed">Abgeschlossen</span></div></div>
             </div>
-            <div class="ap-section"><div class="ap-section-title">Ziel</div><p>die Einrichtung eines Domain Controllers als zentrale Instanz zur Verwaltung o Benutzer, Gruppen und Ressourcen innerhalb der IT-Infrastruktur</p></div>
+            <div class="ap-section"><div class="ap-section-title">Ziel</div><p>die Einrichtung eines Domain Controllers als zentrale Instanz zur Verwaltung von Benutzer, Gruppen und Ressourcen innerhalb der IT-Infrastruktur</p></div>
             <div class="ap-section"><div class="ap-section-title">Beschreibung / Inhalt</div><p>Im Rahmen dieses Arbeitspakets wird ein Windows Server installiert und als Domain Controller konfiguriert. Dabei werden die Dienste Active Directory Domain Services sowie DNS eingerichtet und eine neue Domäne erstellt.</p></div>
-            <div class="ap-section"><div class="ap-section-title">Technische Umsetzung</div><p>Der Server wurde zunächst mit einem eindeutigen Namen versehen und mit einer statischen IP-Adresse konfiguriert. Anschließend wurden die berechtigten Rollen Active Directory Domain Services und DNS installiert. Im nächsten Schritt wurde der Server zu einem Domaincontroller hochgestuft und die Domäne kritsolutions.local erstellt. Der Server steht nach einem Neustart als Verwaltungsinstanz zur Verfügung.</p></div>
-            <div class="ap-section"><div class="ap-section-title">Begründung</div><p>Die zentrale Verwaltung über AD ermöglicht eine strukturierte uns sichere Organisation von Benutzer und Ressourcen. Die Integration eines DNS-Dienstes stellt sicher, dass die Namensauflösung innerhalb der Domäne funktioniert, was eine grundlegende Voraussetzung für den Betrieb von Active Directory darstellt.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Technische Umsetzung</div><p>Der Server wurde zunächst mit einem eindeutigen Namen versehen und mit einer statischen IP-Adresse konfiguriert. Anschließend wurden die benötigten Rollen Active Directory Domain Services und DNS installiert. Im nächsten Schritt wurde der Server zu einem Domaincontroller hochgestuft und die Domäne kritsolutions.local erstellt. Der Server steht nach einem Neustart als Verwaltungsinstanz zur Verfügung.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Begründung</div><p>Die zentrale Verwaltung über AD ermöglicht eine strukturierte und sichere Organisation von Benutzer und Ressourcen. Die Integration eines DNS-Dienstes stellt sicher, dass die Namensauflösung innerhalb der Domäne funktioniert, was eine grundlegende Voraussetzung für den Betrieb von Active Directory darstellt.</p></div>
             <div class="ap-section"><div class="ap-section-title">Ergebnis</div><p>Domaincontroller wurde erfolgreich eingerichtet und stellt die zentrale Grundlage für die weitere Umsetzung der IT-Infrastruktur dar.</p></div>
             <button class="sc-btn" style="margin-top: 10px;" onclick="document.getElementById('tc_02_content').classList.add('open'); document.getElementById('btn_tc_02').classList.add('open'); document.getElementById('btn_tc_02').scrollIntoView();">Zum Testfall navigieren (TC_AP02_NR01)</button>
           </div>
@@ -1156,7 +1156,7 @@ code { font-family: monospace; background: #F0F2F5; padding: 1px 5px; border-rad
             </div>
             <div class="ap-section"><div class="ap-section-title">Ziel</div><p>die Erstellung von Gruppen zur strukturierten Verwaltung von Zugriffsrechten innerhalb der IT-Infrastruktur</p></div>
             <div class="ap-section"><div class="ap-section-title">Beschreibung / Inhalt</div><p>In diesem Arbeitspaket werden Gruppen für die verschiedenen Abteilungen und Rollen des Unternehmens erstellt. Diese dienen später zur Zuweisung von Berechtigungen auf Ressourcen.</p></div>
-            <div class="ap-section"><div class="ap-section-title">Technische Umsetzung</div><p>Es wurden mehrere Sicherheitsgruppen im Active Directory erstellt und in einer seperaten Organisationseinheit verwaltet. Die Gruppen wurden nach einer einheitlichen Namenskonvention benannt und stellen die Grundlage für die spätere Umsetzung des Berechtigungskonzepts dar.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Technische Umsetzung</div><p>Es wurden mehrere Sicherheitsgruppen im Active Directory erstellt und in einer separaten Organisationseinheit verwaltet. Die Gruppen wurden nach einer einheitlichen Namenskonvention benannt und stellen die Grundlage für die spätere Umsetzung des Berechtigungskonzepts dar.</p></div>
             <div class="ap-section"><div class="ap-section-title">Begründung</div><p>Die Verwendung von Gruppen zur Vergabe von Berechtigungen ermöglicht eine effiziente und skalierbare Verwaltung von Zugriffen. Durch die zentrale Steuerung über Gruppen wird sichergestellt, dass Änderungen an Berechtigungen schnell und übersichtlich umgesetzt werden können.</p></div>
             <div class="ap-section"><div class="ap-section-title">Ergebnis</div><p>Die benötigten Gruppen wurden erfolgreich erstellt und stehen für die weitere Konfiguration der Zugriffsrechte zur Verfügung.</p></div>
             <button class="sc-btn" style="margin-top: 10px;" onclick="document.getElementById('tc_06_content').classList.add('open'); document.getElementById('btn_tc_06').classList.add('open'); document.getElementById('btn_tc_06').scrollIntoView();">Zum Testfall navigieren (TC_AP06_NR01)</button>
@@ -1174,7 +1174,7 @@ code { font-family: monospace; background: #F0F2F5; padding: 1px 5px; border-rad
             </div>
             <div class="ap-section"><div class="ap-section-title">Ziel</div><p>die strukturierte Zuordnung von Benutzerkonten zu Gruppen zur Vorbereitung einer effizienten und skalierbaren Rechteverwaltung</p></div>
             <div class="ap-section"><div class="ap-section-title">Beschreibung / Inhalt</div><p>In diesem Arbeitspaket werden die zuvor erstellten Benutzerkonten den entsprechenden Gruppen zugeordnet. Dies erfolgt auf Basis des AGDLP-Prinzips, welches eine klare Trennung zwischen Benutzerkonten und Berechtigungen ermöglicht.</p></div>
-            <div class="ap-section"><div class="ap-section-title">Technische Umsetzung</div><p>Die Benutzerkonten wurden im Active Directory den jeweils passenden Gruppen zugewiesen. Dabei wurden die Benutzer entsprechend ihrer Abteilung und Rolle gruppiert, sodass alle Benutzer einer rolle in einer gemeinsamen Gruppe verwaltet werden.</p></div>
+            <div class="ap-section"><div class="ap-section-title">Technische Umsetzung</div><p>Die Benutzerkonten wurden im Active Directory den jeweils passenden Gruppen zugewiesen. Dabei wurden die Benutzer entsprechend ihrer Abteilung und Rolle gruppiert, sodass alle Benutzer einer Rolle in einer gemeinsamen Gruppe verwaltet werden.</p></div>
             <div class="ap-section"><div class="ap-section-title">Begründung</div><p>Die Nutzung des AGDLP-Prinzips ermöglicht eine effiziente und übersichtliche Verwaltung von Berechtigungen. Durch die Zuordnung von Benutzern zu Gruppen können Zugriffsrechte zentral gesteuert werden, ohne einzelne Benutzer direkt berechtigen zu müssen. Dies vereinfacht die Verwaltung und erhöht die Sicherheit der IT-Infrastruktur.</p></div>
             <div class="ap-section"><div class="ap-section-title">Ergebnis</div><p>Die Benutzer wurden erfolgreich den entsprechenden Gruppen zugeordnet und bilden die Grundlage für die spätere Umsetzung der Zugriffsrechte.</p></div>
             <button class="sc-btn" style="margin-top: 10px;" onclick="document.getElementById('tc_07_content').classList.add('open'); document.getElementById('btn_tc_07').classList.add('open'); document.getElementById('btn_tc_07').scrollIntoView();">Zum Testfall navigieren (TC_AP07_NR01)</button>
@@ -2127,7 +2127,7 @@ code { font-family: monospace; background: #F0F2F5; padding: 1px 5px; border-rad
           <h1>X2 – Kostenplanung</h1>
           <div class="sub">Reale Unternehmensarchitektur · CANCOM Austria AG · Rohit Kumar · 22. Mai 2026</div>
           <div class="cover-meta">
-            <div><span>Angebotsnummer</span>IT-2024-0847</div>
+            <div><span>Angebotsnummer</span>IT-2026-0847</div>
             <div><span>Status</span>Festpreis / Vertraulich</div>
             <div><span>Gültig bis</span>30.09.2026</div>
             <div><span>Mitarbeiter</span>22 User · 16 Desksharing-Plätze</div>
@@ -2741,13 +2741,13 @@ code { font-family: monospace; background: #F0F2F5; padding: 1px 5px; border-rad
     <div class="sprint-card"><div class="sc-ap">AP16</div><div class="sc-title">VPN-Zugang (IPFire)</div><div class="sc-desc">OpenVPN konfiguriert, externer Client verbindet sich, interne Ressourcen erreichbar</div><div class="sc-footer"><span class="badge b-done">✓ Abgeschlossen</span><button class="sc-btn" onclick="showSection('x1')">Details →</button></div></div>
     <div class="sprint-card"><div class="sc-ap">AP17</div><div class="sc-title">Audit Logging (GPO)</div><div class="sc-desc">Audit-Policies via GPO, Event Viewer Security Log, Event IDs 4625/4663 sichtbar</div><div class="sc-footer"><span class="badge b-done">✓ Abgeschlossen</span><button class="sc-btn" onclick="showSection('x1')">Details →</button></div></div>
     <div class="sprint-card"><div class="sc-ap">AP18</div><div class="sc-title">Gruppenrichtlinien (GPO)</div><div class="sc-desc">Passwortrichtlinie (10 Zeichen, Komplexität), Benutzereinschränkungen, Bildschirmsperre</div><div class="sc-footer"><span class="badge b-done">✓ Abgeschlossen</span><button class="sc-btn" onclick="showSection('x1')">Details →</button></div></div>
-    <div class="sprint-card"><div class="sc-ap">AP19</div><div class="sc-title">Wirtschaftlichkeitsbetrachtung</div><div class="sc-desc">CAPEX €91.257, OPEX €1.665/Monat, TCO 5J €352.118 – vollständig kalkuliert</div><div class="sc-footer"><span class="badge b-done">✓ Abgeschlossen</span><button class="sc-btn" onclick="showSection('x2')">Kosten →</button></div></div>
+    <div class="sprint-card"><div class="sc-ap">AP19</div><div class="sc-title">Wirtschaftlichkeitsbetrachtung</div><div class="sc-desc">CAPEX €91.257, OPEX €1.665/Monat, TCO 5J €330.057 – vollständig kalkuliert</div><div class="sc-footer"><span class="badge b-done">✓ Abgeschlossen</span><button class="sc-btn" onclick="showSection('x2')">Kosten →</button></div></div>
   </div>
 </div>
     
     </div> <div class="footer">
       &copy; 2026 Rohit Kumar – Abschlussprojekt 2. Lehrjahr – CANCOM Austria AG<br>
-      Vertraulich / Internal and External
+      Confidential // Internal and External
     </div>
     
     <script>
